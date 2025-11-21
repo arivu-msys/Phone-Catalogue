@@ -1,0 +1,34 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h3>Shipping Address</h3>
+    <form [formGroup]="shippingForm">
+      <div class="mb-3">
+        <label class="form-label">Street address</label>
+        <input class="form-control" formControlName="streetAddress" />
+        <div *ngIf="shippingForm.get('streetAddress')?.touched && shippingForm.get('streetAddress')?.invalid" class="text-danger small mt-1">
+          Street address is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Apartment / Suite</label>
+        <input class="form-control" formControlName="apartment" />
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">City</label>
+          <input class="form-control" formControlName="city" />
+          <div *ngIf="shippingForm.get('city')?.touched && shippingForm.get('city')?.invalid" class="text-danger small mt-1">
+            City is required.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">State</label>
+          <input class="form-control" formControlName="state" />
+          <div *ngIf="shippingForm.get('state')?.touched && shippingForm.get('state')?.invalid" class="text-danger small mt-1">
+            State is required.
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

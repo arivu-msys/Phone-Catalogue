@@ -8,10 +8,9 @@
 
 @media (min-width: 992px) {
   .checkout-left {
-    max-height: calc(100vh - 4rem);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 0.75rem;
+  /* let the page scroll naturally to avoid an independent scrollbar */
+  overflow: visible;
+  padding-right: 0.75rem;
   }
 
   .checkout-right-inner {

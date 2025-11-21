@@ -1,0 +1,126 @@
+.review-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.review-card__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.step-indicator {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background-color: #0b63ce;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-check-label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.link-text {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+
+.review-button {
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  background-color: #0b63ce;
+  border-color: #0b63ce;
+  font-weight: 600;
+}
+
+.review-button__amount {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+}
+
+.review-button:disabled {
+  opacity: 0.7;
+}
+
+/* Modal overrides for centered, readable content */
+.checkout-modal {
+  max-width: 600px;
+  max-height: 600px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.checkout-modal .modal-body {
+  overflow: auto;
+  max-height: 440px; /* leave space for header/footer */
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.modal-backdrop.show {
+  z-index: 1050;
+}
+
+/* Ensure modal is centered and on top */
+.modal.show[role="dialog"] {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1055;
+  display: block;
+}
+
+.checkout-modal {
+  background-color: #ffffff;
+  color: #0f1724; /* slightly darker text */
+  box-shadow: 0 12px 32px rgba(2,6,23,0.25);
+  padding: 0;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem;
+}
+
+.modal-header {
+  border-bottom: 1px solid #e6edf3;
+  background-color: #f8fafc;
+}
+
+.modal-footer {
+  border-top: 1px solid #e6edf3;
+  padding: 0.75rem 1.25rem;
+}
+
+.btn-primary {
+  background-color: #0b63ce;
+  border-color: #0b63ce;
+}
+
+.btn-secondary {
+  background-color: #eef2f6;
+  border-color: #e6edf3;
+  color: #0f1724;
+}
+
+/* Ensure modal footer buttons are right-aligned (Bootstrap does this with justify-content-end) */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
