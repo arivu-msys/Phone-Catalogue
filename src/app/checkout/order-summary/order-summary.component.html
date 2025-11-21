@@ -39,6 +39,7 @@
     </div>
   </div>
 
+  <div *ngIf="promoSuccess" class="text-success small mb-2">{{ promoSuccess }}</div>
   <div *ngIf="promoError" class="text-danger small mb-2">{{ promoError }}</div>
 
   <div class="summary-row">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { CheckoutValidationService } from '../services/checkout-validation.service';
 
 export type PaymentMethod = 'card' | 'paypal' | 'applePay';
 
@@ -10,7 +11,7 @@ export type PaymentMethod = 'card' | 'paypal' | 'applePay';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.scss',
+  styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent {
   paymentForm: FormGroup;
@@ -25,7 +26,7 @@ export class PaymentComponent {
     nameOnCard: '',
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private checkoutValidationService: CheckoutValidationService) {
     this.paymentForm = this.fb.group({
       method: ['card', [Validators.required]],
       cardNumber: ['', [Validators.required]],
@@ -33,6 +34,7 @@ export class PaymentComponent {
       cvv: ['', [Validators.required]],
       nameOnCard: ['', [Validators.required]],
     });
+    this.checkoutValidationService.registerForm(this.paymentForm);
   }
 
   setMethod(method: PaymentMethod): void {
@@ -45,4 +47,3 @@ export class PaymentComponent {
     return this.selectedMethod === 'card';
   }
 }
-

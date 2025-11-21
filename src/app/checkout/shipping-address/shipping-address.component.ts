@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { CheckoutValidationService } from '../services/checkout-validation.service';
 
 @Component({
   selector: 'app-shipping-address',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './shipping-address.component.html',
-  styleUrl: './shipping-address.component.scss',
+  styleUrls: ['./shipping-address.component.scss'],
 })
 export class ShippingAddressComponent {
   shippingForm: FormGroup;
@@ -24,7 +25,7 @@ export class ShippingAddressComponent {
     billingSameAsShipping: true,
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private checkoutValidationService: CheckoutValidationService) {
     this.shippingForm = this.fb.group({
       streetAddress: ['', [Validators.required]],
       apartment: [''],
@@ -35,6 +36,6 @@ export class ShippingAddressComponent {
       saveForFuture: [false],
       billingSameAsShipping: [true],
     });
+    this.checkoutValidationService.registerForm(this.shippingForm);
   }
 }
-

@@ -1,0 +1,65 @@
+<section class="review-card mb-4">
+  <div class="review-card__header d-flex align-items-center">
+    <div class="step-indicator d-flex align-items-center justify-content-center me-3">
+      <span>4</span>
+    </div>
+    <h2 class="review-card__title mb-0">Review &amp; Place Order</h2>
+  </div>
+
+  <hr class="my-3" />
+
+  <form [formGroup]="reviewForm" novalidate (ngSubmit)="onPlaceOrder()">
+    <div class="form-check mb-4">
+    <input
+        id="agreeToTerms"
+        type="checkbox"
+        class="form-check-input"
+        formControlName="agreeToTerms"
+        [(ngModel)]="review.agreeToTerms"
+      />
+      <label class="form-check-label" for="agreeToTerms">
+        I agree to the
+  <a href="javascript:void(0)" class="link-text" (click)="openModal('Terms & Conditions','terms')">Terms and Conditions</a>
+  and
+  <a href="javascript:void(0)" class="link-text" (click)="openModal('Privacy Policy','privacy')">Privacy Policy</a>
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary review-button d-flex justify-content-between align-items-center w-100"
+      [disabled]="reviewForm.invalid"
+    >
+      <span>Place Order</span>
+      <span class="review-button__amount">
+        {{ (cartFinalTotal$ | async) | currency: 'USD':'symbol' }}
+      </span>
+    </button>
+  </form>
+</section>
+
+<!-- Bootstrap 5 modal centered, custom size 600x600 -->
+<div class="modal fade show" tabindex="-1" role="dialog" aria-modal="true" *ngIf="isModalOpen">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content checkout-modal" style="width:600px; max-width:90vw; height:600px;">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalTitle }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="cancelModal()"></button>
+      </div>
+      <div class="modal-body p-0" style="height:calc(100% - 110px); overflow:auto; background:#fff;">
+        <ng-container *ngIf="modalComponent === 'privacy'">
+          <app-privacy-policy></app-privacy-policy>
+        </ng-container>
+        <ng-container *ngIf="modalComponent === 'terms'">
+          <app-terms-conditions (accept)="acceptModal()" (cancel)="cancelModal()"></app-terms-conditions>
+        </ng-container>
+      </div>
+      <!-- footer for terms already included in component; keep an extra spacer/footer for privacy -->
+      <div class="modal-footer" *ngIf="modalComponent === 'privacy'">
+        <button type="button" class="btn btn-secondary" (click)="cancelModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" style="background: rgba(0,0,0,0.6);"></div>
+</div>
+

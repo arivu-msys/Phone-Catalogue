@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { selectCartItems, selectCartCount, selectCartPricing, selectCartTotal } from '../store/cart/cart.selectors';
-import { CartItem } from '../store/cart/cart-item.model';
+import { selectCartItems, selectCartCount, selectCartPricing, selectCartTotal } from '../../store/cart/cart.selectors';
+import { CartItem } from '../../store/cart/cart-item.model';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject, combineLatest, map, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { CartPricing } from '../store/cart/cart-pricing.model';
-import * as CartActions from '../store/cart/cart.actions';
+import { CartPricing } from '../../store/cart/cart-pricing.model';
+import * as CartActions from '../../store/cart/cart.actions';
 
 @Component({
   selector: 'app-order-summary',
@@ -28,6 +28,7 @@ export class OrderSummaryComponent {
   private promoCode$ = new BehaviorSubject<string>('');
   promoCode = '';
   promoError = '';
+  promoSuccess = '';
 
   // derived observables
   discount$!: Observable<number>;
@@ -71,7 +72,8 @@ export class OrderSummaryComponent {
   }
 
   onApplyPromo(): void {
-    this.promoError = '';
+  this.promoError = '';
+  this.promoSuccess = '';
     // push entered code into reactive stream
     this.promoCode$.next(this.promoCode);
 
@@ -79,6 +81,7 @@ export class OrderSummaryComponent {
     const pricingSnapshot = (pricing: CartPricing | undefined) => {
       if (!this.promoCode) {
         this.promoError = '';
+        this.promoSuccess = '';
         return;
       }
       if (!pricing) {
@@ -87,8 +90,10 @@ export class OrderSummaryComponent {
       }
       if (this.promoCode !== pricing.promoCode) {
         this.promoError = 'Promo code is invalid';
+        this.promoSuccess = '';
       } else {
         this.promoError = '';
+        this.promoSuccess = 'Promo code applied successfully';
       }
     };
 
