@@ -1,0 +1,62 @@
+<section class="customer-card mb-4">
+  <div class="customer-card__header d-flex align-items-center">
+    <div class="step-indicator d-flex align-items-center justify-content-center me-3">
+      <span>1</span>
+    </div>
+    <h2 class="customer-card__title mb-0">Customer Information</h2>
+  </div>
+
+  <hr class="my-3" />
+
+  <form [formGroup]="customerForm" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="firstName">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          class="form-control customer-input"
+          placeholder="Your First Name"
+          formControlName="firstName"
+          [(ngModel)]="customer.firstName"
+        />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="lastName">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          class="form-control customer-input"
+          placeholder="Your Last Name"
+          formControlName="lastName"
+          [(ngModel)]="customer.lastName"
+        />
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" for="email">Email Address</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control customer-input"
+        placeholder="Your Email"
+        formControlName="email"
+        [(ngModel)]="customer.email"
+      />
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" for="phone">Phone Number</label>
+      <input
+        id="phone"
+        type="tel"
+        class="form-control customer-input"
+        placeholder="Your Phone Number"
+        formControlName="phone"
+        [(ngModel)]="customer.phone"
+      />
+    </div>
+  </form>
+</section>
+

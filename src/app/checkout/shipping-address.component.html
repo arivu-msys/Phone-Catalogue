@@ -1,0 +1,117 @@
+<section class="shipping-card mb-4">
+  <div class="shipping-card__header d-flex align-items-center">
+    <div class="step-indicator d-flex align-items-center justify-content-center me-3">
+      <span>2</span>
+    </div>
+    <h2 class="shipping-card__title mb-0">Shipping Address</h2>
+  </div>
+
+  <hr class="my-3" />
+
+  <form [formGroup]="shippingForm" novalidate>
+    <div class="mb-3">
+      <label class="form-label" for="streetAddress">Street Address</label>
+      <input
+        id="streetAddress"
+        type="text"
+        class="form-control shipping-input"
+        placeholder="Street Address"
+        formControlName="streetAddress"
+        [(ngModel)]="shipping.streetAddress"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="apartment">Apartment, Suite, etc. (optional)</label>
+      <input
+        id="apartment"
+        type="text"
+        class="form-control shipping-input"
+        placeholder="Apartment, Suite, Unit, etc."
+        formControlName="apartment"
+        [(ngModel)]="shipping.apartment"
+      />
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label" for="city">City</label>
+        <input
+          id="city"
+          type="text"
+          class="form-control shipping-input"
+          placeholder="City"
+          formControlName="city"
+          [(ngModel)]="shipping.city"
+        />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="state">State</label>
+        <input
+          id="state"
+          type="text"
+          class="form-control shipping-input"
+          placeholder="State"
+          formControlName="state"
+          [(ngModel)]="shipping.state"
+        />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="zipCode">ZIP Code</label>
+        <input
+          id="zipCode"
+          type="text"
+          class="form-control shipping-input"
+          placeholder="ZIP Code"
+          formControlName="zipCode"
+          [(ngModel)]="shipping.zipCode"
+        />
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" for="country">Country</label>
+      <select
+        id="country"
+        class="form-select shipping-input"
+        formControlName="country"
+        [(ngModel)]="shipping.country"
+      >
+        <option value="" disabled>Select Country</option>
+        <option value="USA">United States</option>
+        <option value="CAN">Canada</option>
+        <option value="UK">United Kingdom</option>
+        <!-- Add more countries as needed -->
+      </select>
+    </div>
+
+    <div class="mt-3">
+      <div class="form-check mb-2">
+        <input
+          id="saveForFuture"
+          type="checkbox"
+          class="form-check-input"
+          formControlName="saveForFuture"
+          [(ngModel)]="shipping.saveForFuture"
+        />
+        <label class="form-check-label" for="saveForFuture">
+          Save this address for future orders
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input
+          id="billingSameAsShipping"
+          type="checkbox"
+          class="form-check-input"
+          formControlName="billingSameAsShipping"
+          [(ngModel)]="shipping.billingSameAsShipping"
+        />
+        <label class="form-check-label" for="billingSameAsShipping">
+          Billing address same as shipping
+        </label>
+      </div>
+    </div>
+  </form>
+</section>
+

@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.checkout-container {
+  max-width: 1140px;
+}
+
+@media (min-width: 992px) {
+  .checkout-left {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.75rem;
+  }
+
+  .checkout-right-inner {
+    position: sticky;
+    top: 1.5rem;
+  }
+}
+
