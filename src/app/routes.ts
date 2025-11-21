@@ -6,5 +6,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./checkout/checkout.component').then((m) => m.CheckoutComponent),
   },
+  {
+    path: 'cart',
+    loadComponent: () => import('./cart/cart.component').then((m) => m.CartComponent),
+  },
 ];
 

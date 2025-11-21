@@ -1,0 +1,23 @@
+<div class="container my-4 cart-container">
+  <div class="row">
+    <div class="col-lg-8 cart-left">
+      <div class="cart-header-row d-none d-lg-flex">
+        <div class="flex-grow-1">PRODUCT</div>
+        <div style="width:110px; text-align:center">PRICE</div>
+        <div style="width:140px; text-align:center">QUANTITY</div>
+        <div style="width:100px; text-align:right">TOTAL</div>
+      </div>
+      <div class="py-3">
+        <app-cart-list></app-cart-list>
+      </div>
+    </div>
+    <div class="col-lg-4 cart-right">
+      <div class="cart-right-inner">
+        <app-cart-summary (proceed)="onProceedToCheckout()"></app-cart-summary>
+        <div class="mt-3 text-center">
+          <button class="continue-pill" (click)="onContinueShopping()">← Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
