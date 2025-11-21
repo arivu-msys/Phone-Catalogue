@@ -32,7 +32,7 @@
     >
       <span>Place Order</span>
       <span class="review-button__amount">
-        {{ totalAmount | currency: 'USD':'symbol' }}
+        {{ (cartFinalTotal$ | async) | currency: 'USD':'symbol' }}
       </span>
     </button>
   </form>

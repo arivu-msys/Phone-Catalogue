@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
+import { selectFinalTotal } from '../store/cart/cart.selectors';
 
 @Component({
   selector: 'app-review-place-order',
@@ -17,10 +20,16 @@ export class ReviewPlaceOrderComponent {
     agreeToTerms: false,
   };
 
-  // Placeholder total; you can later bind this from parent or service
-  totalAmount = 240.96;
+  // bind pricing from store
+  cartFinalTotal$!: Observable<number | undefined>;
 
-  constructor(private fb: FormBuilder) {
+  // expose final total for template async use
+  finalTotal$!: Observable<number | undefined>;
+
+  constructor(private fb: FormBuilder, private store: Store) {
+    // initialize store-backed observables
+    this.cartFinalTotal$ = this.store.select(selectFinalTotal);
+
     this.reviewForm = this.fb.group({
       agreeToTerms: [false, [Validators.requiredTrue]],
     });
