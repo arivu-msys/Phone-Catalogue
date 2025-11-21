@@ -29,8 +29,15 @@
 .summary-item__thumb .thumb-inner {
   width: 36px;
   height: 36px;
+  max-width: 36px;
+  max-height: 36px;
   border-radius: 10px;
   background: linear-gradient(135deg, #f97316, #fb923c);
+  img {
+    width: inherit;
+    height: inherit;
+    object-fit: contain;
+  }
 }
 
 .summary-item__name {

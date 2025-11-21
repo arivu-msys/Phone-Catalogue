@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { selectCartItems, selectCartCount } from '../store/cart/cart.selectors';
+import { CartItem } from '../store/cart/cart-item.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+
 interface OrderItem {
   name: string;
   color: string;
@@ -34,6 +40,17 @@ export class OrderSummaryComponent {
       price: 59.99,
     },
   ];
+  cartItems$: Observable<CartItem[]>;
+  cartCount$: Observable<number>;
+
+  constructor(private store: Store) {
+    this.cartItems$= this.store.select(selectCartItems);
+    this.cartCount$ = this.store.select(selectCartCount);
+  }
+
+  
+
+  
 
   shipping = 9.99;
   tax = 21.0;
