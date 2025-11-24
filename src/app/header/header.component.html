@@ -1,7 +1,7 @@
 <header class="pc-header" #host>
   <div class="pc-header__inner">
     <!-- Left: Text logo -->
-    <div class="logo" aria-label="Phone Catalogue logo">Phone Catalogue</div>
+    <a class="logo" routerLink="/" aria-label="Phone Catalogue home">Phone Catalogue</a>
 
     <!-- Center: Desktop search (hidden on mobile) -->
     <div class="search-desktop" role="search">
@@ -27,7 +27,7 @@
                   <div class="s-name">{{ s.name }}</div>
                   <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
                 </div>
-                <button class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
                   <span [class.faved]="isInWishlist(s.id)">♥</span>
                 </button>
               </div>
@@ -111,7 +111,7 @@
                   <div class="s-name">{{ s.name }}</div>
                   <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
                 </div>
-                <button class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
                   <span [class.faved]="isInWishlist(s.id)">♥</span>
                 </button>
               </div>
@@ -152,7 +152,12 @@
             <a *ngIf="!c.children?.length" [routerLink]="['/category', c.name]">{{ c.name }}</a>
             <div *ngIf="c.children?.length" class="mobile-sub-toggle-row">
               <a [routerLink]="['/category', c.name]">{{ c.name }}</a>
-              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)">▾</button>
+              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" aria-label="Toggle submenu">
+                <!-- inline chevron svg matching theme -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
           </div>
           <ul class="mobile-sub" *ngIf="c.children?.length && expandedSubmenus.has(i)">
