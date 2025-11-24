@@ -17,14 +17,28 @@
         </div>
         <div class="py-3">
           <app-cart-list></app-cart-list>
+
+          <div class="promo-card mb-3 mt-3">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control promo-input"
+                placeholder="Promo Code"
+                [(ngModel)]="promoCode"
+              />
+              <button class="btn btn-link promo-apply" type="button" (click)="onApplyPromo()">
+                Apply
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="promoSuccess" class="text-success small mb-2">{{ promoSuccess }}</div>
+          <div *ngIf="promoError" class="text-danger small mb-2">{{ promoError }}</div>
         </div>
       </div>
       <div class="col-lg-4 cart-right">
         <div class="cart-right-inner">
-          <app-cart-summary (proceed)="onProceedToCheckout()"></app-cart-summary>
-          <div class="mt-3 text-center">
-            <button class="continue-pill" (click)="onContinueShopping()">← Continue Shopping</button>
-          </div>
+          <app-cart-summary (proceed)="onProceedToCheckout()" (continue)="onContinueShopping()"></app-cart-summary>
         </div>
       </div>
     </div>

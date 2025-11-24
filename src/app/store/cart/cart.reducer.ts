@@ -25,8 +25,9 @@ export const initialState: CartState = {
    ],
   pricing: {
     promoCode: '123',
-    promoDiscount: 200,
-    shippingPrice: 10,
+    promoDiscountAvailable: 200,
+    appliedPromoDiscount: 0,
+    shippingPrice: 0,
     tax: 40
   }
 };
@@ -56,6 +57,11 @@ const _cartReducer = createReducer(
   on(CartActions.updateQuantity, (state, { productId, quantity }) => ({
     ...state,
     items: state.items.map((i) => (i.productId === productId ? { ...i, quantity } : i)),
+  })),
+
+  on(CartActions.updatePricing, (state, { pricing }) => ({
+    ...state,
+    pricing: { ...state.pricing, ...(pricing as any) },
   })),
 
   on(CartActions.clearCart, () => initialState)

@@ -45,7 +45,7 @@ export class OrderSummaryComponent {
   this.discount$ = combineLatest([this.cartPricing$, this.promoCode$]).pipe(
       map(([pricing, code]) => {
         if (!code) return 0;
-        return code === pricing?.promoCode ? (pricing.promoDiscount ?? 0) : 0;
+  return code === pricing?.promoCode ? (pricing.promoDiscountAvailable ?? 0) : 0;
       })
     );
 

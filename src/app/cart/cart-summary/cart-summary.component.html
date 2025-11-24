@@ -12,15 +12,15 @@
           <div class="shipping-label me-3">Shipping</div>
           <div class="shipping-options flex-fill">
             <div class="form-check text-end">
-              <input class="form-check-input" type="radio" name="shipping" id="standard" checked>
+              <input class="form-check-input" type="radio" name="shipping" id="standard" [checked]="selectedShipping==='standard'" (change)="onShippingChange('standard')">
               <label class="form-check-label" for="standard">Standard Delivery - ₹4.99</label>
             </div>
             <div class="form-check text-end">
-              <input class="form-check-input" type="radio" name="shipping" id="express">
+              <input class="form-check-input" type="radio" name="shipping" id="express" [checked]="selectedShipping==='express'" (change)="onShippingChange('express')">
               <label class="form-check-label" for="express">Express Delivery - ₹12.99</label>
             </div>
             <div class="form-check text-end">
-              <input class="form-check-input" type="radio" name="shipping" id="free">
+              <input class="form-check-input" type="radio" name="shipping" id="free" [checked]="selectedShipping==='free'" (change)="onShippingChange('free')">
               <label class="form-check-label" for="free">Free (Orders over ₹300)</label>
             </div>
           </div>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="d-flex justify-content-between mt-3"><div>Tax</div><div>₹{{ pricing.tax }}</div></div>
-      <div class="d-flex justify-content-between"><div>Promo Discount</div><div class="text-success">-₹{{ pricing.promoDiscount }}</div></div>
+  <div class="d-flex justify-content-between"><div>Promo Discount</div><div class="text-success">-₹{{ pricing.appliedPromoDiscount || 0 }}</div></div>
     </div>
 
   <hr />
@@ -36,11 +36,15 @@
   <div class="d-flex justify-content-between fw-bold mb-3"> 
     <div>Total</div>
     <div>
-      ₹{{ ((cartTotal$ | async) || 0) + ((cartPricing$ | async)?.shippingPrice || 0) + ((cartPricing$ | async)?.tax || 0) - ((cartPricing$ | async)?.promoDiscount || 0) }}
+  ₹{{ ((cartTotal$ | async) || 0) + ((cartPricing$ | async)?.shippingPrice || 0) + ((cartPricing$ | async)?.tax || 0) - ((cartPricing$ | async)?.appliedPromoDiscount || 0) }}
     </div>
   </div>
 
   <button class="btn btn-primary w-100 proceed-pill" (click)="onProceed()">Proceed to Checkout</button>
+
+  <div class="mt-3 text-center">
+    <button class="btn btn-primary w-100 continue-pill" (click)="$event.stopPropagation(); continue.emit()">← Continue Shopping</button>
+  </div>
 
   <div class="mt-3 icons-row d-flex justify-content-center gap-3">
     <span class="icon">🔒</span>
