@@ -3,7 +3,7 @@
     <h3>Payment</h3>
     <form [formGroup]="paymentForm">
       <div class="mb-3">
-        <label class="form-label">Card number</label>
+        <label class="form-label">Card number <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="cardNumber" />
         <div *ngIf="paymentForm.get('cardNumber')?.touched && paymentForm.get('cardNumber')?.invalid" class="text-danger small mt-1">
           Card number is required.
@@ -11,14 +11,14 @@
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label">Expiry</label>
+          <label class="form-label">Expiry <span class="required-indicator">*</span></label>
           <input class="form-control" formControlName="expiry" />
           <div *ngIf="paymentForm.get('expiry')?.touched && paymentForm.get('expiry')?.invalid" class="text-danger small mt-1">
             Expiry is required.
           </div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label">CVV</label>
+          <label class="form-label">CVV <span class="required-indicator">*</span></label>
           <input class="form-control" formControlName="cvv" />
           <div *ngIf="paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid" class="text-danger small mt-1">
             CVV is required.
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Name on card</label>
+        <label class="form-label">Name on card <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="nameOnCard" />
         <div *ngIf="paymentForm.get('nameOnCard')?.touched && paymentForm.get('nameOnCard')?.invalid" class="text-danger small mt-1">
           Name on card is required.

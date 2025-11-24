@@ -5,21 +5,21 @@
     <form [formGroup]="customerForm">
       <!-- simplified fields -->
       <div class="mb-3">
-        <label class="form-label">First name</label>
+        <label class="form-label">First name <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="firstName" />
         <div *ngIf="customerForm.get('firstName')?.touched && customerForm.get('firstName')?.invalid" class="text-danger small mt-1">
           First name is required.
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Last name</label>
+        <label class="form-label">Last name <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="lastName" />
         <div *ngIf="customerForm.get('lastName')?.touched && customerForm.get('lastName')?.invalid" class="text-danger small mt-1">
           Last name is required.
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Email</label>
+        <label class="form-label">Email <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="email" />
         <div *ngIf="customerForm.get('email')?.touched && customerForm.get('email')?.invalid" class="text-danger small mt-1">
           <span *ngIf="customerForm.get('email')?.errors?.['required']">Email is required.</span>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Phone</label>
+        <label class="form-label">Phone <span class="required-indicator">*</span></label>
         <input class="form-control" formControlName="phone" />
         <div *ngIf="customerForm.get('phone')?.touched && customerForm.get('phone')?.invalid" class="text-danger small mt-1">
           Phone is required.
