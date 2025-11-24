@@ -4,7 +4,7 @@
       <div *ngFor="let it of items" class="cart-item d-flex align-items-center mb-3">
         <!-- Product column -->
         <div class="d-flex align-items-center" style="flex:1">
-          <img [src]="it.imageUrl" class="item-img" alt="" />
+          <img [src]="it.imageUrl ? '/' + it.imageUrl : '/img/phones/placeholder.png'" class="item-img" alt="" />
           <div class="ms-3">
             <div class="title">{{ it.title }}</div>
             <div class="small text-muted">{{ '' }}</div>

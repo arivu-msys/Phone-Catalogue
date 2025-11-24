@@ -1,0 +1,7 @@
+[
+  { "name": "Home" },
+  { "name": "Phones", "children": [ { "name": "Android" }, { "name": "iOS" }, { "name": "Accessories" } ] },
+  { "name": "Accessories" },
+  { "name": "Offers" },
+  { "name": "Contact" }
+]
