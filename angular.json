@@ -48,6 +48,7 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -120,9 +121,15 @@
                 "glob": "**/*",
                 "input": "src/img",
                 "output": "/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/bootstrap-icons/font",
+                "output": "/assets/bootstrap-icons"
               }
             ],
             "styles": [
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
             ],
             "scripts": []

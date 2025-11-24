@@ -22,13 +22,39 @@
     font-weight: 600;
   }
 
-  .qty-controls {
-    button {
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      border-radius: 18px;
-    }
-    .px-3 { min-width: 36px; text-align:center }
+  .deal-price {
+    font-weight: 700;
+    color: #0f172a;
   }
+
+  .qty-pill {
+    background: #fff;
+    border: 1px solid #e6eefc;
+    border-radius: 20px;
+    padding: 6px 8px;
+    align-items: center;
+  }
+
+  .qty-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    line-height: 1;
+    color: #0b5ed7;
+    cursor: pointer;
+  }
+
+  .qty-value { min-width: 36px; text-align:center; font-weight:600 }
+
+  .item-total { font-weight:700; color:#0b365f }
+
+  .remove-btn {
+    font-size: 18px;
+    color: #dc3545;
+  }
+
+  .qty-pill { gap: 8px }
 }
