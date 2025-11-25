@@ -1,4 +1,170 @@
-<header class="header">
-  <h2>Phone Catalogue</h2>
-  <!-- Add navigation or logo here -->
+<header class="pc-header" #host>
+  <div class="pc-header__inner">
+    <!-- Left: Text logo -->
+    <a class="logo" routerLink="/" aria-label="Phone Catalogue home">Phone Catalogue</a>
+
+    <!-- Center: Desktop search (hidden on mobile) -->
+    <div class="search-desktop" role="search">
+      <form class="search-form" (submit)="onSearch(desktopSearch?.value); $event.preventDefault()">
+        <div class="search-input-wrap">
+          <input #desktopSearch type="search" class="search-input" placeholder="Search for products" aria-label="Search for products"
+            (input)="onDesktopInput(desktopSearch.value)" (keydown)="onDesktopKeydown($event)" />
+          <button class="search-btn" aria-label="Search" type="submit">
+            <!-- magnifier svg -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2"/>
+            </svg>
+          </button>
+
+          <!-- Desktop suggestions dropdown -->
+          <ul class="suggestions" *ngIf="desktopSuggestions.length">
+            <li *ngFor="let s of desktopSuggestions; let i = index" (click)="selectSuggestion(s, 'desktop')"
+                [class.active]="i === desktopActiveIndex">
+              <div class="suggestion-item">
+                <img class="thumb" [src]="s.imageUrl ? '/' + s.imageUrl : '/img/phones/placeholder.png'" alt="{{s.name}}"/>
+                <div class="meta">
+                  <div class="s-name">{{ s.name }}</div>
+                  <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
+                </div>
+                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                  <span [class.faved]="isInWishlist(s.id)">♥</span>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right: Actions (icons). On mobile these align right; on desktop they remain to the right side. -->
+    <div class="actions">
+
+
+      <!-- Mobile-only search icon (toggles slide-down search) -->
+      <button class="icon-btn icon-search-mobile" (click)="toggleMobileSearch()" aria-label="Open search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M21 21l-4.35-4.35" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="6" stroke="#0b5ed7" stroke-width="2"/>
+        </svg>
+      </button>
+
+      <!-- User icon -->
+      <button class="icon-btn" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="7" r="4" stroke="#0b5ed7" stroke-width="2"/>
+        </svg>
+      </button>
+
+      <!-- Wishlist icon -->
+      <button class="icon-btn" aria-label="Wishlist" (click)="goToWishlist()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-9.6a5.5 5.5 0 0 0 0-7.8z" stroke="#0b5ed7" stroke-width="1" fill="none"/>
+        </svg>
+      </button>
+
+      <!-- Cart with badge -->
+      <button class="icon-btn cart-btn" aria-label="Cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="20" r="1" fill="#0b5ed7"/>
+          <circle cx="18" cy="20" r="1" fill="#0b5ed7"/>
+        </svg>
+        <span class="badge">3</span>
+      </button>
+
+      <!-- Hamburger: visible only on mobile, toggles mobile menu -->
+      <button class="icon-btn icon-hamburger" (click)="toggleMenu()" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M3 6h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
+          <path d="M3 12h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
+          <path d="M3 18h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Backdrop shown only when mobile menu is open (removed overlay for search) -->
+  <div class="backdrop" [class.open]="isMenuOpen" (click)="closeMenu()"></div>
+
+  <!-- Mobile slide-down search panel (hidden by default) -->
+  <div class="mobile-search-panel" [class.open]="isSearchOpen">
+    <div class="mobile-search-inner">
+      <form class="search-form" (submit)="onSearch(mobileSearch?.value); $event.preventDefault()">
+        <div class="search-input-wrap">
+          <input #mobileSearch type="search" class="search-input" placeholder="Search for products" aria-label="Search for products"
+            (input)="onMobileInput(mobileSearch.value)" />
+          <button class="search-btn" aria-label="Search" type="submit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2"/>
+            </svg>
+          </button>
+
+          <!-- Mobile suggestions shown under mobile search -->
+          <ul class="suggestions mobile" *ngIf="mobileSuggestions.length">
+            <li *ngFor="let s of mobileSuggestions" (click)="selectSuggestion(s, 'mobile')">
+              <div class="suggestion-item mobile">
+                <img class="thumb" [src]="s.imageUrl ? '/' + s.imageUrl : '/img/phones/placeholder.png'" alt="{{s.name}}"/>
+                <div class="meta">
+                  <div class="s-name">{{ s.name }}</div>
+                  <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
+                </div>
+                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                  <span [class.faved]="isInWishlist(s.id)">♥</span>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Desktop nav: visible on larger screens as menu bar; categories loaded from JSON -->
+  <nav class="pc-nav" role="navigation">
+    <ul class="pc-nav__list">
+      <li><a [routerLink]="['/']">Home</a></li>
+      <li *ngFor="let c of categoriesNoHome" [class.has-sub]="c.children?.length">
+        <a [routerLink]="c.name === 'Home' ? ['/'] : ['/category', c.name]">{{ c.name }}</a>
+        <ul class="sub" *ngIf="c.children?.length">
+          <li *ngFor="let s of c.children"><a [routerLink]="['/category', s.name]">{{ s.name }}</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Mobile off-canvas menu (slides in) -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <div class="mobile-menu-inner">
+      <button class="mobile-menu-close" (click)="closeMenu()" aria-label="Close menu">
+        <!-- X svg -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M18 6L6 18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 6l12 12" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <ul class="mobile-menu-list">
+        <li><a [routerLink]="['/']">Home</a></li>
+        <li *ngFor="let c of categoriesNoHome; let i = index">
+          <div class="mobile-item-row">
+            <a *ngIf="!c.children?.length" [routerLink]="['/category', c.name]">{{ c.name }}</a>
+            <div *ngIf="c.children?.length" class="mobile-sub-toggle-row">
+              <a [routerLink]="['/category', c.name]">{{ c.name }}</a>
+              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" aria-label="Toggle submenu">
+                <!-- inline chevron svg matching theme -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <ul class="mobile-sub" *ngIf="c.children?.length && expandedSubmenus.has(i)">
+            <li *ngFor="let s of c.children"><a [routerLink]="['/category', s.name]">{{ s.name }}</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </header>

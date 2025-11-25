@@ -1,6 +1,302 @@
-.header {
-  background: #1976d2;
+.pc-header {
+  background: #fff;
+  color: #0b5ed7;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.05);
+  position: relative;
+  z-index: 30;
+}
+
+.pc-header__inner {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.logo {
+  font-weight: 700;
+  color: #0b5ed7;
+  font-size: 1.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Logo is simple blue text — styles are defined above */
+
+/* Center search (desktop only) */
+.search-desktop {
+  flex: 1 1 640px; /* expand */
+  display: flex;
+  justify-content: center;
+}
+
+.search-form {
+  width: 100%;
+  max-width: 640px; /* smaller, centered */
+}
+
+.search-input-wrap {
+  position: relative;
+}
+
+/* Suggestions dropdown */
+.suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 8px 30px rgba(16,24,40,0.08);
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+  border-radius: 8px;
+  z-index: 40;
+}
+.suggestions.mobile { left: 0; right: 0; max-height: 220px; overflow:auto; z-index: 1000 }
+.suggestions li { padding: 0.5rem 0.75rem; cursor: pointer }
+.suggestions li:hover, .suggestions li.active { background: #f0f7ff }
+.suggestions .s-name { font-size: 0.95rem; color: #0b2540 }
+
+/* suggestion item layout */
+.suggestion-item { display:flex; align-items:center; gap:0.6rem }
+.suggestion-item .thumb { width:44px; height:44px; object-fit:cover; border-radius:6px }
+.suggestion-item .meta { flex:1 }
+.suggestion-item .s-name { font-size:0.95rem; font-weight:600 }
+.suggestion-item .s-price { color:#0b5ed7; font-size:0.85rem }
+.wish-btn { background:transparent; border:none; cursor:pointer; padding:0.2rem 0.4rem; color:#888 }
+.wish-btn .faved { color:#e11d48 } 
+.wish-btn span { font-size:1rem; }
+
+.search-input {
+  width: 100%;
+  padding: 0.9rem 4.2rem 0.9rem 1.2rem; /* leave room for button */
+  border-radius: 9999px; /* capsule */
+  border: 1px solid #e6e6e6; /* light gray border */
+  background: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.search-input:focus {
+  border-color: #0b5ed7;
+}
+
+.search-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0b5ed7; /* blue */
+  border: none;
+  height: calc(100% - 8px);
+  width: 3.4rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-btn svg { display:block }
+
+/* Right actions */
+.actions {
+  display:flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-btn svg { color: #0b5ed7 }
+
+.cart-btn { position: relative }
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #0b5ed7;
   color: #fff;
-  padding: 1rem;
-  text-align: center;
+  font-weight: 700;
+  font-size: 0.65rem;
+  line-height: 1;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 4px;
+}
+
+/* Mobile search slide-down panel */
+.mobile-search-panel {
+  max-height: 0;
+  transition: max-height 240ms ease-in-out;
+  background: #fff;
+  z-index: 900;
+}
+/* keep overflow hidden only when the panel is closed */
+.mobile-search-panel:not(.open) {
+  overflow: hidden;
+}
+.mobile-search-panel.open { max-height: 160px; }
+
+.mobile-search-inner {
+  padding: 0.75rem 1rem 1rem 1rem;
+}
+
+.mobile-search-inner .search-input {
+  border: 1px solid #e6e6e6;
+  padding-right: 3.6rem;
+}
+
+.close-search {
+  margin-top: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+.mobile-search-close {
+  margin-top: 0.5rem;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Responsive rules */
+.pc-nav {
+  border-top: 1px solid #eef2f6;
+  background: #fff;
+}
+
+.pc-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 1.75rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.pc-nav__list a { color: #1f2937; text-decoration: none }
+.pc-nav__list .has-sub { position: relative }
+.pc-nav__list a { position: relative; transition: color 180ms ease }
+.pc-nav__list a::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%) scaleX(0); bottom: -6px; height: 2px; width: 60%; background: #0b5ed7; border-radius: 2px; transform-origin: center; transition: transform 180ms ease }
+.pc-nav__list li:hover > a { color: #0b5ed7 }
+.pc-nav__list li:hover > a::after { transform: translateX(-50%) scaleX(1) }
+.pc-nav__list .sub {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(16,24,40,0.12);
+  list-style: none;
+  padding: 0.5rem 0.5rem;
+  display: none;
+  min-width: 220px;
+  border-radius: 8px;
+}
+.pc-nav__list .sub li { padding: 0 }
+.pc-nav__list .sub li a { display: block; padding: 0.6rem 1rem; font-size: 1rem; color: #0b2540 }
+.pc-nav__list .sub li a:hover { background: #f0f7ff; color: #0b5ed7; border-radius: 6px }
+.pc-nav__list li:hover > .sub { display: block }
+
+/* Mobile menu (off-canvas) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 84%;
+  max-width: 320px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 4px 0 18px rgba(16,24,40,0.12);
+  transition: left 220ms ease-in-out;
+  z-index: 60;
+}
+.mobile-menu.open { left: 0 }
+.mobile-menu-inner { padding: 1rem }
+.mobile-menu-close { background: transparent; border: none; margin-bottom: 0.5rem }
+.mobile-menu-list { list-style: none; padding: 0; margin: 0 }
+.mobile-menu-list li { padding: 0.5rem 0 }
+.mobile-menu-list a { text-decoration: none; color: #0b2540; display: block; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9 }
+.mobile-sub { list-style: none; padding-left: 0.5rem; font-size: 0.95rem }
+.mobile-sub li { padding: 0.45rem 0 }
+.mobile-sub li a { display: inline-block; padding-left: 1.1rem }
+.mobile-sub li::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #0b5ed7; margin-right: 10px; vertical-align: middle }
+
+/* mobile submenu toggle icon */
+.mobile-sub-toggle { background: transparent; border: none; display: inline-flex; align-items: center; justify-content: center; padding: 0.25rem; cursor: pointer }
+.mobile-sub-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* Backdrop for mobile menu and search */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease-in-out;
+  z-index: 50;
+}
+.backdrop.open { opacity: 1; pointer-events: auto }
+
+/* Hide the desktop nav on mobile by default */
+.pc-nav { display: none }
+
+.mobile-item-row { display:flex; align-items:center; justify-content:space-between }
+.mobile-sub-toggle-row { display:flex; align-items:center; gap:0.5rem }
+.mobile-sub-toggle { background:transparent; border:none; font-size:1rem; cursor:pointer }
+
+/* Icon visibility and layout tweaks across breakpoints */
+@media (max-width: 768px) {
+  /* On small screens: hide desktop search and desktop-only icons */
+  .search-desktop { display: none }
+  .icon-search-desktop { display: none }
+  .icon-search-mobile { display: inline-flex }
+  .icon-hamburger { display: inline-flex }
+
+  /* Align actions to the right */
+  .pc-header__inner { justify-content: space-between }
+  .actions { margin-left: auto }
+  .logo { font-size: 1rem }
+}
+
+@media (min-width: 769px) {
+  /* On larger screens: show desktop search and desktop-only icons */
+  .search-desktop { display: flex }
+  .icon-search-desktop { display: inline-flex }
+  .icon-search-mobile { display: none }
+  .icon-hamburger { display: none }
+
+  /* Show desktop nav on larger screens */
+  .pc-nav { display: block }
+
+  /* Hide mobile overlay menus */
+  .mobile-search-panel { display: none }
+  .mobile-menu { display: none }
+
+  /* Center layout: logo left, search center, actions right */
+  .pc-header__inner { justify-content: flex-start }
+  .logo { margin-right: 1.5rem }
+  .actions { margin-left: 1rem }
 }
