@@ -9,8 +9,8 @@
             <div class="title">{{ it.title }}</div>
             <div class="small text-muted">{{ '' }}</div>
             <div class="mt-2">
-              <button class="btn btn-sm btn-link text-danger p-0 remove-btn" (click)="remove(it.productId)" aria-label="Remove">
-                <i class="bi bi-trash" aria-hidden="true"></i>
+              <button class="btn btn-sm btn-link text-danger p-0 remove-btn" (click)="remove(it.productId)" [attr.aria-label]="'Remove'">
+                <i class="bi bi-trash" [attr.aria-hidden]="true"></i>
               </button>
             </div>
           </div>

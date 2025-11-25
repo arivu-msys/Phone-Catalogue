@@ -1,17 +1,17 @@
 <header class="pc-header" #host>
   <div class="pc-header__inner">
     <!-- Left: Text logo -->
-    <a class="logo" routerLink="/" aria-label="Phone Catalogue home">Phone Catalogue</a>
+    <a class="logo" routerLink="/" [attr.aria-label]="'Phone Catalogue home'">Phone Catalogue</a>
 
     <!-- Center: Desktop search (hidden on mobile) -->
     <div class="search-desktop" role="search">
       <form class="search-form" (submit)="onSearch(desktopSearch?.value); $event.preventDefault()">
         <div class="search-input-wrap">
-          <input #desktopSearch type="search" class="search-input" placeholder="Search for products" aria-label="Search for products"
+          <input #desktopSearch type="search" class="search-input" placeholder="Search for products" [attr.aria-label]="'Search for products'"
             (input)="onDesktopInput(desktopSearch.value)" (keydown)="onDesktopKeydown($event)" />
-          <button class="search-btn" aria-label="Search" type="submit">
+          <button class="search-btn" [attr.aria-label]="'Search'" type="submit">
             <!-- magnifier svg -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
               <path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2"/>
             </svg>
@@ -27,7 +27,7 @@
                   <div class="s-name">{{ s.name }}</div>
                   <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
                 </div>
-                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                <button type="button" class="wish-btn" [attr.aria-label]="'Toggle wishlist'" (click)="toggleWishlistFor(s, $event)">
                   <span [class.faved]="isInWishlist(s.id)">♥</span>
                 </button>
               </div>
@@ -42,31 +42,31 @@
 
 
       <!-- Mobile-only search icon (toggles slide-down search) -->
-      <button class="icon-btn icon-search-mobile" (click)="toggleMobileSearch()" aria-label="Open search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <button class="icon-btn icon-search-mobile" (click)="toggleMobileSearch()" [attr.aria-label]="'Open search'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M21 21l-4.35-4.35" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="11" cy="11" r="6" stroke="#0b5ed7" stroke-width="2"/>
         </svg>
       </button>
 
       <!-- User icon -->
-      <button class="icon-btn" aria-label="Account">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <button class="icon-btn" [attr.aria-label]="'Account'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="12" cy="7" r="4" stroke="#0b5ed7" stroke-width="2"/>
         </svg>
       </button>
 
       <!-- Wishlist icon -->
-      <button class="icon-btn" aria-label="Wishlist" (click)="goToWishlist()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <button class="icon-btn" [attr.aria-label]="'Wishlist'" (click)="goToWishlist()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-9.6a5.5 5.5 0 0 0 0-7.8z" stroke="#0b5ed7" stroke-width="1" fill="none"/>
         </svg>
       </button>
 
       <!-- Cart with badge -->
-      <button class="icon-btn cart-btn" aria-label="Cart">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <button class="icon-btn cart-btn" [attr.aria-label]="'Cart'">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="10" cy="20" r="1" fill="#0b5ed7"/>
           <circle cx="18" cy="20" r="1" fill="#0b5ed7"/>
@@ -75,8 +75,8 @@
       </button>
 
       <!-- Hamburger: visible only on mobile, toggles mobile menu -->
-      <button class="icon-btn icon-hamburger" (click)="toggleMenu()" aria-label="Menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <button class="icon-btn icon-hamburger" (click)="toggleMenu()" [attr.aria-label]="'Menu'">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M3 6h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
           <path d="M3 12h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
           <path d="M3 18h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
@@ -93,10 +93,10 @@
     <div class="mobile-search-inner">
       <form class="search-form" (submit)="onSearch(mobileSearch?.value); $event.preventDefault()">
         <div class="search-input-wrap">
-          <input #mobileSearch type="search" class="search-input" placeholder="Search for products" aria-label="Search for products"
+          <input #mobileSearch type="search" class="search-input" placeholder="Search for products" [attr.aria-label]="'Search for products'"
             (input)="onMobileInput(mobileSearch.value)" />
-          <button class="search-btn" aria-label="Search" type="submit">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <button class="search-btn" [attr.aria-label]="'Search'" type="submit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
               <path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2"/>
             </svg>
@@ -111,7 +111,7 @@
                   <div class="s-name">{{ s.name }}</div>
                   <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
                 </div>
-                <button type="button" class="wish-btn" aria-label="Toggle wishlist" (click)="toggleWishlistFor(s, $event)">
+                <button type="button" class="wish-btn" [attr.aria-label]="'Toggle wishlist'" (click)="toggleWishlistFor(s, $event)">
                   <span [class.faved]="isInWishlist(s.id)">♥</span>
                 </button>
               </div>
@@ -138,9 +138,9 @@
   <!-- Mobile off-canvas menu (slides in) -->
   <div class="mobile-menu" [class.open]="isMenuOpen">
     <div class="mobile-menu-inner">
-      <button class="mobile-menu-close" (click)="closeMenu()" aria-label="Close menu">
+      <button class="mobile-menu-close" (click)="closeMenu()" [attr.aria-label]="'Close menu'">
         <!-- X svg -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M18 6L6 18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M6 6l12 12" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -152,7 +152,7 @@
             <a *ngIf="!c.children?.length" [routerLink]="['/category', c.name]">{{ c.name }}</a>
             <div *ngIf="c.children?.length" class="mobile-sub-toggle-row">
               <a [routerLink]="['/category', c.name]">{{ c.name }}</a>
-              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" aria-label="Toggle submenu">
+              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" [attr.aria-label]="'Toggle submenu'">
                 <!-- inline chevron svg matching theme -->
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                   <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

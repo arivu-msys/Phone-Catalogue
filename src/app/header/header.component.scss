@@ -192,9 +192,11 @@
   padding: 0.5rem 1rem;
   display: flex;
   gap: 1.75rem;
-  justify-content: center;
+  justify-content: flex-start; /* left align menu items inside container */
   align-items: center;
   font-size: 0.95rem;
+  max-width: 1100px; /* align with hero container */
+  margin: 0 auto; /* center the nav container while keeping items left-aligned */
 }
 
 .pc-nav__list a { color: #1f2937; text-decoration: none }

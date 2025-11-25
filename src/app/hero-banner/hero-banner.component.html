@@ -1,0 +1,38 @@
+<section class="hero-carousel" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <div class="slides">
+    <ng-container *ngFor="let b of banners; let i = index">
+      <article class="slide" [class.active]="i === active" [attr.aria-hidden]="i !== active" [attr.data-state]="i === active ? 'active' : (i === prevActive ? 'from-active' : 'inactive')" [attr.data-dir]="direction">
+        <div class="container">
+          <div class="left">
+            <div *ngIf="b.subtitle" class="badge">{{ b.subtitle }}</div>
+            <h1 class="title">{{ b.title }}</h1>
+            <p class="desc">{{ b.description }}</p>
+            <div class="ctas">
+              <button class="btn primary" (click)="goToPhone(b.id)">Shop Now</button>
+              <button class="btn ghost" (click)="goToCategory(b.category)">View Category</button>
+            </div>
+          </div>
+
+          <div class="right" *ngIf="b.imageUrl">
+            <div class="phone-wrap">
+              <img class="phone-img" [src]="b.imageUrl" [alt]="b.title" />
+              <ng-container *ngIf="b.hotspots?.length">
+                <button type="button" class="hotspot" *ngFor="let h of b.hotspots" [style.left]="h.x + '%'" [style.top]="h.y + '%'" [attr.aria-label]="h.label" [attr.title]="h.label">
+                  <span class="dot" [attr.aria-hidden]="true"></span>
+                  <span class="tip" role="tooltip">{{ h.label }}</span>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+  </div>
+
+  <button class="arrow prev" [attr.aria-label]="'Previous'" (click)="prev()">‹</button>
+  <button class="arrow next" [attr.aria-label]="'Next'" (click)="next()">›</button>
+
+  <div class="dots" *ngIf="banners.length>1">
+    <button *ngFor="let _ of banners; let i = index" class="dot" [class.active]="i===active" (click)="go(i)" [attr.aria-label]="'Go to slide ' + (i+1)"></button>
+  </div>
+</section>
