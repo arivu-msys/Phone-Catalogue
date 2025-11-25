@@ -44,7 +44,7 @@
     <div class="modal-content checkout-modal" style="width:600px; max-width:90vw; height:600px;">
       <div class="modal-header">
         <h5 class="modal-title">{{ modalTitle }}</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="cancelModal()"></button>
+        <button type="button" class="btn-close" [attr.aria-label]="'Close'" (click)="cancelModal()"></button>
       </div>
       <div class="modal-body p-0" style="height:calc(100% - 110px); overflow:auto; background:#fff;">
         <ng-container *ngIf="modalComponent === 'privacy'">
