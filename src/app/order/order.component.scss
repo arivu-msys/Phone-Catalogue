@@ -1,0 +1,77 @@
+/* Basic spacing/styling for order confirmation page */
+.customer-info div {
+  margin-bottom: 6px;
+}
+
+.card-img-top {
+  padding: 8px;
+  background: #fff;
+}
+
+/* Recently viewed carousel styles */
+.recent-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.recent-track {
+  gap: 12px;
+  /* mobile: small padding so items are near edge */
+  padding: 8px 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* hide scrollbar in IE/Edge */
+  scrollbar-width: none; /* hide scrollbar in Firefox */
+  display: flex;
+  align-items: stretch;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  touch-action: pan-x;
+  scroll-snap-type: x mandatory;
+}
+
+.recent-track::-webkit-scrollbar { display: none; }
+
+/* mobile: items size flexible */
+.recent-item {
+  flex: 0 0 48%;
+  max-width: 48%;
+  scroll-snap-align: start;
+}
+
+.carousel-btn {
+  display: none; /* hide arrows on mobile */
+}
+
+/* Desktop: show arrows and fit 4 items per view, arrows placed outside images */
+@media (min-width: 768px) {
+  /* reserve left/right margins so arrows sit outside the visible items */
+  .recent-track {
+    padding: 8px 0; /* padding inside track */
+    margin: 0 48px; /* reserve 48px both sides for arrows */
+  }
+
+  /* make 4 items fit per visible area: subtract reserved margins (48*2) and gaps (3*12px) then divide by 4 */
+  .recent-item {
+    flex: 0 0 calc((100% - 233px) / 4);
+    max-width: calc((100% - 233px) / 4);
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: none;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel-btn.left { left: 8px; }
+  .carousel-btn.right { right: 8px; }
+}

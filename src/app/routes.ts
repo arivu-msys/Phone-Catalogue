@@ -9,6 +9,11 @@ export const routes: Routes = [
     component: LandingPageComponent
   },
   {
+    path: 'product/:id',
+    loadComponent: () =>
+      import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+  },
+  {
     path: 'checkout',
     loadComponent: () =>
       import('./checkout/checkout.component').then((m) => m.CheckoutComponent),
@@ -28,6 +33,10 @@ export const routes: Routes = [
   {
     path: 'wishlist',
     loadComponent: () => import('./wishlist/wishlist.component').then((m) => m.WishlistComponent),
+  },
+  {
+    path: 'order',
+    loadComponent: () => import('./order/order.component').then((m) => m.OrderComponent),
   },
 ];
 

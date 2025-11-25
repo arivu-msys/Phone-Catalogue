@@ -1,0 +1,137 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-center mb-4">
+    <div style="max-width:1082px; width:100%;">
+      <div class="alert alert-success text-center mb-0">
+        <h2 class="mb-2">Order Placed Successfully!</h2>
+        <p>Your order number is <strong>{{ orderNumber }}</strong>.</p>
+      </div>
+      <div class="text-end mt-3">
+        <button class="btn btn-secondary" (click)="continueShopping()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-4"></div>
+  <div class="d-flex justify-content-center">
+    <div style="max-width:1082px; width:100%;">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 text-start">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-6 mb-3 mb-md-0">
+              <h4 class="mb-0">Customer Contact Information</h4>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="customer-info">
+                <div><strong>Name:</strong> John Doe</div>
+                <div><strong>Address:</strong> 123 Main Street, Springfield, USA</div>
+                <div><strong>Phone Number:</strong> (555) 123-4567</div>
+                <div><strong>Email:</strong> johndoe&#64;example.com</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4 mb-5">
+    <div style="max-width:1082px; width:100%;">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h4 class="mb-4 text-start">Order Details</h4>
+          <div *ngFor="let item of cartItems" class="row mb-3 align-items-center">
+            <div class="col-3 col-md-2">
+              <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.title" class="img-fluid rounded" style="max-width:80px;">
+            </div>
+            <div class="col-9 col-md-7">
+              <div class="fw-bold">{{item.title}}</div>
+              <div *ngIf="item.category">Category: {{item.category}}</div>
+            </div>
+            <div class="col-12 col-md-3 text-md-end mt-2 mt-md-0">
+              <div class="fw-bold fs-5">${{item.dealPrice}}</div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-12 col-md-6 offset-md-6">
+              <div class="d-flex justify-content-between">
+                <span>Item Subtotal:</span>
+                <span>{{ getSubtotal() }}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Shipping &amp; Handling:</span>
+                <span>$0.00</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span><em>Discount/Credit:</em></span>
+                <span><em>{{ getDiscount() }}</em></span>
+              </div>
+              <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
+                <span>Order Total:</span>
+                <span>{{ getOrderTotal() }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4">
+    <div style="max-width:1082px; width:100%;">
+      <div class="row g-4">
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body text-start">
+              <h5 class="card-title mb-3">Payment Details</h5>
+              <div><strong>Payment Method:</strong> Credit Card (**** **** **** 1234)</div>
+              <div><strong>Transaction ID:</strong> 9876543210</div>
+              <div><strong>Payment Status:</strong> Paid</div>
+              <div><strong>Billing Address:</strong> 123 Main Street, Springfield, USA</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body text-start">
+              <h5 class="card-title mb-3">Questions About Your Order?</h5>
+              <p>If you have any questions or need help with your order, please contact our support team:</p>
+              <ul class="mb-0">
+                <li>Email: <a href="mailto:support&#64;example.com">support&#64;example.com</a></li>
+                <li>Phone: (555) 987-6543</li>
+                <li>Live Chat: Available 9am - 6pm</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4 mb-5">
+    <div style="max-width:1082px; width:100%;">
+      <div class="card shadow-sm">
+        <div class="card-body text-start">
+          <h5 class="card-title mb-3">Recently Viewed</h5>
+          <div class="recent-carousel position-relative">
+            <button class="carousel-btn left" (click)="scrollLeft()" aria-label="Scroll left">‹</button>
+            <div #recentTrack class="recent-track d-flex">
+              <div class="recent-item" *ngFor="let item of recentlyViewed">
+                <a [routerLink]="['/product', item.id]" class="text-decoration-none text-dark">
+                  <div class="card h-100">
+                    <img *ngIf="item.image" [src]="item.image" [alt]="item.name" class="card-img-top" style="max-height:120px; object-fit:contain;">
+                    <div class="card-body p-2">
+                      <div class="fw-bold small mb-1">{{item.name}}</div>
+                      <div class="text-muted small">{{item.category}}</div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <button class="carousel-btn right" (click)="scrollRight()" aria-label="Scroll right">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
