@@ -166,9 +166,15 @@ export class HeaderComponent implements OnInit {
 
   // Select suggestion from dropdown; target can be 'desktop' or 'mobile'
   selectSuggestion(item: any, target: 'desktop' | 'mobile') {
-    const q = item?.name || item?.id || '';
-    if (!q) return;
-    this.router.navigate(['/search'], { queryParams: { q } });
+    if (!item) return;
+    // If the suggestion has a product id, navigate to the product details page.
+    if (item.id) {
+      this.router.navigate(['/product', item.id]);
+    } else {
+      const q = item?.name || '';
+      if (!q) return;
+      this.router.navigate(['/search'], { queryParams: { q } });
+    }
     this.desktopSuggestions = [];
     this.mobileSuggestions = [];
     this.isSearchOpen = false;
