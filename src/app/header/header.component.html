@@ -1,5 +1,6 @@
 <header class="pc-header" #host>
-  <div class="pc-header__inner">
+  <div class="pc-header__container">
+    <div class="pc-header__inner">
     <!-- Left: Text logo -->
     <a class="logo" routerLink="/" [attr.aria-label]="'Phone Catalogue home'">Phone Catalogue</a>
 
@@ -65,14 +66,14 @@
       </button>
 
       <!-- Cart with badge -->
-      <button class="icon-btn cart-btn" [attr.aria-label]="'Cart'">
+      <a class="icon-btn cart-btn" routerLink="/cart" aria-label="Cart">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="10" cy="20" r="1" fill="#0b5ed7"/>
           <circle cx="18" cy="20" r="1" fill="#0b5ed7"/>
         </svg>
         <span class="badge">3</span>
-      </button>
+      </a>
 
       <!-- Hamburger: visible only on mobile, toggles mobile menu -->
       <button class="icon-btn icon-hamburger" (click)="toggleMenu()" [attr.aria-label]="'Menu'">
@@ -82,6 +83,7 @@
           <path d="M3 18h18" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
+    </div>
     </div>
   </div>
 

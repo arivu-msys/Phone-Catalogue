@@ -9,8 +9,9 @@ import { WishlistService } from './wishlist.service';
   imports: [CommonModule],
   template: `
     <div class="wishlist-page">
-      <h2>Your Wishlist</h2>
-      <div *ngIf="items?.length; else empty">
+      <div class="site-container">
+        <h2>Your Wishlist</h2>
+        <div *ngIf="items?.length; else empty">
         <ul class="wishlist-list">
           <li *ngFor="let it of items">
             <img [src]="it.imageUrl ? '/' + it.imageUrl : '/img/phones/placeholder.png'" alt="{{it.name}}" />
@@ -22,9 +23,10 @@ import { WishlistService } from './wishlist.service';
           </li>
         </ul>
       </div>
-      <ng-template #empty>
-        <p>No items in wishlist.</p>
-      </ng-template>
+        <ng-template #empty>
+          <p>No items in wishlist.</p>
+        </ng-template>
+      </div>
     </div>
   `,
   styles: [

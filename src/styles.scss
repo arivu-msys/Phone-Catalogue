@@ -1,3 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 @use "bootstrap" as *;
+
+/* Site-wide container used to align header, hero, footer, and pages */
+.site-container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
