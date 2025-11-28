@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RuntimeConfigLoaderService } from '../core/services/runtime-config-loader.service';
+import { Store } from '@ngrx/store';
+import { CartItem } from '../store/cart/cart-item.model';
+import { addItem } from '../store/cart/cart.actions';
 
 @Component({
   selector: 'app-product-details',
@@ -40,7 +43,9 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private runtimeConfig: RuntimeConfigLoaderService
+    private runtimeConfig: RuntimeConfigLoaderService,
+    private store: Store,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +68,45 @@ export class ProductDetailsComponent implements OnInit {
       }
     );
     return;
+  }
+
+  // Build a CartItem from the loaded product to avoid duplicating object assembly
+  private buildCartItem(product: any): CartItem {
+    // Prefer product.id but fall back to product.productId if necessary
+    const productId = product?.id ?? product?.productId ?? '';
+
+    const cartItem: CartItem = {
+      productId: productId,
+      title: product.name,
+      dealPrice: product.dealPrice + 0,
+      mrp: product.mrp,
+      // Use selected quantity from the UI
+      quantity: this.quantity,
+      imageUrl: product.images[0],
+      item: product,
+    };
+
+    return cartItem;
+  }
+
+  // Called when user clicks "Add to Cart". Builds CartItem, dispatches addItem, then navigates to /cart
+  onAddToCart(): void {
+  if (!this.product) return;
+  // Ensure quantity is a positive integer
+  this.quantity = Math.max(1, Math.floor(Number(this.quantity) || 0));
+  const cartItem = this.buildCartItem(this.product);
+    this.store.dispatch(addItem({ item: cartItem }));
+    this.router.navigate(['/cart']);
+  }
+
+  // Called when user clicks "Buy Now". Builds CartItem, dispatches addItem, then navigates to /checkout
+  onBuyNow(): void {
+  if (!this.product) return;
+  // Ensure quantity is a positive integer
+  this.quantity = Math.max(1, Math.floor(Number(this.quantity) || 0));
+  const cartItem = this.buildCartItem(this.product);
+    this.store.dispatch(addItem({ item: cartItem }));
+    this.router.navigate(['/checkout']);
   }
 
   
@@ -181,11 +225,8 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart() {
-    const parts: string[] = [];
-    if (this.selectedColor) parts.push(`Color: ${this.selectedColor}`);
-    if (this.selectedStorage) parts.push(`Storage: ${this.selectedStorage}`);
-    const cfg = parts.length ? ` (${parts.join(' | ')})` : '';
-    alert(`${this.product?.name} (x${this.quantity})${cfg} added to cart`);
+  // Delegate to onAddToCart which handles building the CartItem and dispatching.
+  this.onAddToCart();
   }
 
   selectColor(color: string) {

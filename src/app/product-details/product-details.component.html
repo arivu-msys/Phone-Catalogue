@@ -58,7 +58,7 @@
         <div class="mb-3">
           <label class="form-label">Quantity</label>
           <div class="input-group" style="max-width:140px">
-            <button class="btn btn-outline-secondary" (click)="decrement()">-</button>
+            <button class="btn btn-outline-secondary" (click)="decrement()" [disabled]="quantity <= 1">-</button>
             <input class="form-control text-center" type="text" [value]="quantity" readonly>
             <button class="btn btn-outline-secondary" (click)="increment()">+</button>
           </div>
@@ -88,8 +88,8 @@
 
         <!-- rotation controls moved to top of image -->
          <div class="mb-3 d-flex gap-2">
-          <button class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
-          <button class="btn btn-outline-primary">Buy Now</button>
+          <button class="btn btn-primary" (click)="onAddToCart()">Add to Cart</button>
+          <button class="btn btn-outline-primary" (click)="onBuyNow()">Buy Now</button>
         </div>
 
       </div>

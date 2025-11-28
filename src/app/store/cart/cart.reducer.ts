@@ -7,8 +7,8 @@ export const initialState: CartState = {
      {
        productId: 'P001',
        title: 'motorola-xoom.0',
-       dealPrice: 2499,
-       mrp: 2999,
+       dealPrice: '2499',
+       mrp: '2999',
        quantity: 1,
        imageUrl: 'img/phones/motorola-xoom.0.jpg',
        item: {}
@@ -16,8 +16,8 @@ export const initialState: CartState = {
      {
        productId: 'P002',
        title: 'dell-streak-7.0',
-       dealPrice: 3500,
-       mrp: 4000,
+       dealPrice: '3500',
+       mrp: '4000',
        quantity: 2,
        imageUrl: 'img/phones/dell-streak-7.0.jpg',
        item: {}

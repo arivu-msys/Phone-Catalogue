@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { WishlistService } from '../wishlist/wishlist.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectCartCount } from '../store/cart/cart.selectors';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +35,8 @@ export class HeaderComponent implements OnInit {
   // autosuggest lists and query state for desktop and mobile
   desktopSuggestions: Array<any> = [];
   mobileSuggestions: Array<any> = [];
+  // observable for cart count
+  cartCount$?: Observable<number>;
   desktopQuery = '';
   mobileQuery = '';
   // index for keyboard navigation (desktop)
@@ -41,7 +46,13 @@ export class HeaderComponent implements OnInit {
   private mobileTimer: any = null;
 
   // Reference to the host element to detect outside clicks and HttpClient to load JSON
-  constructor(private hostRef: ElementRef<HTMLElement>, private http: HttpClient, private router: Router, private wishlist: WishlistService) {}
+  constructor(
+    private hostRef: ElementRef<HTMLElement>,
+    private http: HttpClient,
+    private router: Router,
+    private wishlist: WishlistService,
+    private store: Store
+  ) {}
 
   // Navigate to wishlist page (template-friendly)
   goToWishlist() {
@@ -97,6 +108,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.loadPhones();
+  // subscribe to cart count from store
+  this.cartCount$ = this.store.select(selectCartCount);
   }
 
   // Load phones.json for autosuggest
