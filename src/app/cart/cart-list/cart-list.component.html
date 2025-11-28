@@ -4,9 +4,11 @@
       <div *ngFor="let it of items" class="cart-item d-flex align-items-center mb-3">
         <!-- Product column -->
         <div class="d-flex align-items-center" style="flex:1">
-          <img [src]="it.imageUrl ? '/' + it.imageUrl : '/img/phones/placeholder.png'" class="item-img" alt="" />
+          <a [routerLink]="['/product', it.productId || it.item?.id]">
+            <img [src]="it.imageUrl ? '/' + it.imageUrl : '/img/phones/placeholder.png'" class="item-img" alt="" />
+          </a>
           <div class="ms-3">
-            <div class="title">{{ it.title }}</div>
+            <div class="title"><a [routerLink]="['/product', it.productId || it.item?.id]">{{ it.title }}</a></div>
             <div class="small text-muted">{{ '' }}</div>
             <div class="mt-2">
               <button class="btn btn-sm btn-link text-danger p-0 remove-btn" (click)="remove(it.productId)" [attr.aria-label]="'Remove'">
@@ -32,7 +34,7 @@
 
         <!-- Total column -->
         <div class="total-col text-end" style="width:100px">
-          <div class="item-total">₹{{ (it.dealPrice * it.quantity) | number:'1.0-0' }}</div>
+          <div class="item-total">₹{{ ((+it.dealPrice || 0) * it.quantity) | number:'1.0-0' }}</div>
         </div>
       </div>
     </div>

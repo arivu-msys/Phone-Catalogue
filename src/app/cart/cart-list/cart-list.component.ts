@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CartItem } from '../../store/cart/cart-item.model';
@@ -9,7 +10,7 @@ import * as CartActions from '../../store/cart/cart.actions';
 @Component({
   selector: 'app-cart-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.scss'],
 })

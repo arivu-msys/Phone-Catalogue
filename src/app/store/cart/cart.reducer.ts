@@ -3,26 +3,7 @@ import * as CartActions from './cart.actions';
 import { CartState } from './cart-state.model';
 
 export const initialState: CartState = {
-  items: [
-     {
-       productId: 'P001',
-       title: 'motorola-xoom.0',
-       dealPrice: '2499',
-       mrp: '2999',
-       quantity: 1,
-       imageUrl: 'img/phones/motorola-xoom.0.jpg',
-       item: {}
-     },
-     {
-       productId: 'P002',
-       title: 'dell-streak-7.0',
-       dealPrice: '3500',
-       mrp: '4000',
-       quantity: 2,
-       imageUrl: 'img/phones/dell-streak-7.0.jpg',
-       item: {}
-     }
-   ],
+  items: [],
   pricing: {
     promoCode: '123',
     promoDiscountAvailable: 200,
@@ -34,21 +15,39 @@ export const initialState: CartState = {
 
 const _cartReducer = createReducer(
   initialState,
-  on(CartActions.addItem, (state, { item }) => {
-    const existing = state.items.find((i) => i.productId === item.productId);
-    if (existing) {
-      // increase quantity
+  // keep legacy addItem behaviour: append-only
+  on(CartActions.addItem, (state, { item }) => ({ ...state, items: [...state.items, { ...item }] })),
+
+  // updateOrAddItem: merge by composite key (productId + options) or append
+  on(CartActions.updateOrAddItem, (state, { item }) => {
+    const idx = state.items.findIndex(i => i.productId === item.productId);
+
+    // If exists → merge
+    if (idx >= 0) {
+      const existing = state.items[idx];
+
+      const updatedItem = {
+        ...existing,
+        ...item,
+        quantity: (existing.quantity || 1) + (item.quantity || 1),
+        item: item.item || existing.item
+      };
+
+      const newItems = [...state.items];
+      newItems[idx] = updatedItem;
+
       return {
         ...state,
-        items: state.items.map((i) =>
-          i.productId === item.productId ? { ...i, quantity: i.quantity + item.quantity } : i
-        ),
+        items: newItems
       };
     }
 
-    return { ...state, items: [...state.items, { ...item }] };
+    // If not found → append
+    return {
+      ...state,
+      items: [...state.items, { ...item }]
+    };
   }),
-
   on(CartActions.removeItem, (state, { productId }) => ({
     ...state,
     items: state.items.filter((i) => i.productId !== productId),

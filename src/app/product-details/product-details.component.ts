@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RuntimeConfigLoaderService } from '../core/services/runtime-config-loader.service';
 import { Store } from '@ngrx/store';
 import { CartItem } from '../store/cart/cart-item.model';
-import { addItem } from '../store/cart/cart.actions';
+import { updateOrAddItem } from '../store/cart/cart.actions';
 
 @Component({
   selector: 'app-product-details',
@@ -80,10 +80,9 @@ export class ProductDetailsComponent implements OnInit {
       title: product.name,
       dealPrice: product.dealPrice + 0,
       mrp: product.mrp,
-      // Use selected quantity from the UI
       quantity: this.quantity,
       imageUrl: product.images[0],
-      item: product,
+      item: product
     };
 
     return cartItem;
@@ -95,7 +94,7 @@ export class ProductDetailsComponent implements OnInit {
   // Ensure quantity is a positive integer
   this.quantity = Math.max(1, Math.floor(Number(this.quantity) || 0));
   const cartItem = this.buildCartItem(this.product);
-    this.store.dispatch(addItem({ item: cartItem }));
+  this.store.dispatch(updateOrAddItem({ item: cartItem }));
     this.router.navigate(['/cart']);
   }
 
@@ -105,7 +104,7 @@ export class ProductDetailsComponent implements OnInit {
   // Ensure quantity is a positive integer
   this.quantity = Math.max(1, Math.floor(Number(this.quantity) || 0));
   const cartItem = this.buildCartItem(this.product);
-    this.store.dispatch(addItem({ item: cartItem }));
+  this.store.dispatch(updateOrAddItem({ item: cartItem }));
     this.router.navigate(['/checkout']);
   }
 
