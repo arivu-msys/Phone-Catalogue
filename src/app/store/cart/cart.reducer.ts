@@ -15,8 +15,6 @@ export const initialState: CartState = {
 
 const _cartReducer = createReducer(
   initialState,
-  // keep legacy addItem behaviour: append-only
-  on(CartActions.addItem, (state, { item }) => ({ ...state, items: [...state.items, { ...item }] })),
 
   // updateOrAddItem: merge by composite key (productId + options) or append
   on(CartActions.updateOrAddItem, (state, { item }) => {
