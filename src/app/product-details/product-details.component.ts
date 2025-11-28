@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RuntimeConfigLoaderService } from '../core/services/runtime-config-loader.service';
 
 @Component({
   selector: 'app-product-details',
@@ -36,7 +37,11 @@ export class ProductDetailsComponent implements OnInit {
   colorOptions: string[] = ['pink', 'silver', 'gold', 'blue'];
   storageOptions: string[] = ['128 gb', '255 gb'];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private runtimeConfig: RuntimeConfigLoaderService
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -46,62 +51,44 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   loadProduct(id: string) {
-    // Try to load the detailed product JSON first (it contains an `images` array)
-    this.http.get<any>(`assets/phones/${id}.json`).subscribe(
+    // Prefer runtime API if apiBaseUrl is configured at runtime
+    const apiBaseUrl = this.runtimeConfig.get('apiBaseUrl');
+    this.http.get<any>(`${apiBaseUrl}/api/phones/${id}`).subscribe(
       (detail) => {
         this.product = detail;
-        if (Array.isArray(detail.images) && detail.images.length) {
-          this.thumbnails = detail.images.slice();
-          this.mainImage = this.thumbnails[0];
-        } else if (detail.imageUrl) {
-          // fallback to pattern-based generation if `images` isn't present
-          const base = detail.imageUrl.replace(/\.0\.jpg$/, '');
-          this.thumbnails = [];
-          for (let i = 0; i < 4; i++) {
-            this.thumbnails.push(base + '.' + i + '.jpg');
-          }
-          this.mainImage = detail.imageUrl || this.thumbnails[0] || null;
-        }
-        // prefer colors/storage coming from product, otherwise use defaults
-        if (detail?.color && Array.isArray(detail.color) && detail.color.length) {
-          this.colorOptions = detail.color.slice();
-        }
-        if (detail?.storage && Array.isArray(detail.storage) && detail.storage.length) {
-          this.storageOptions = detail.storage.slice();
-        }
-        // initialize selections
-        if (!this.selectedColor && this.colorOptions.length) this.selectedColor = this.colorOptions[0];
-        if (!this.selectedStorage && this.storageOptions.length) this.selectedStorage = this.storageOptions[0];
+        this.handleLoadedDetail(detail);
       },
-      // If detailed file doesn't exist, fall back to the summary list and pattern generation
       (err) => {
-        console.warn(`Detailed JSON for ${id} not found, falling back to summary:`, err);
-        this.http.get<any[]>('assets/phones/phones.json').subscribe(
-          (data) => {
-            const found = data.find((p) => p.id === id);
-            if (found) {
-              this.product = found;
-              const base = found.imageUrl ? found.imageUrl.replace(/\.0\.jpg$/, '') : '';
-              this.thumbnails = [];
-              for (let i = 0; i < 4; i++) {
-                this.thumbnails.push(base + '.' + i + '.jpg');
-              }
-              this.mainImage = found.imageUrl || this.thumbnails[0] || null;
-              // prefer summary-list colors/storage if present
-              if (found?.color && Array.isArray(found.color) && found.color.length) {
-                this.colorOptions = found.color.slice();
-              }
-              if (found?.storage && Array.isArray(found.storage) && found.storage.length) {
-                this.storageOptions = found.storage.slice();
-              }
-              if (!this.selectedColor && this.colorOptions.length) this.selectedColor = this.colorOptions[0];
-              if (!this.selectedStorage && this.storageOptions.length) this.selectedStorage = this.storageOptions[0];
-            }
-          },
-          (err2) => console.error('Failed to load phones.json', err2)
-        );
+        console.warn('Failed to load product from API, falling back to local assets:', err);
       }
     );
+    return;
+  }
+
+  
+
+  // Shared handler to set up images and options when detail is loaded from API
+  private handleLoadedDetail(detail: any) {
+    if (Array.isArray(detail.images) && detail.images.length) {
+      this.thumbnails = detail.images.slice();
+      this.mainImage = this.thumbnails[0];
+    } else if (detail.imageUrl) {
+      const base = detail.imageUrl.replace(/\.0\.jpg$/, '');
+      this.thumbnails = [];
+      for (let i = 0; i < 4; i++) {
+        this.thumbnails.push(base + '.' + i + '.jpg');
+      }
+      this.mainImage = detail.imageUrl || this.thumbnails[0] || null;
+    }
+
+    if (detail?.color && Array.isArray(detail.color) && detail.color.length) {
+      this.colorOptions = detail.color.slice();
+    }
+    if (detail?.storage && Array.isArray(detail.storage) && detail.storage.length) {
+      this.storageOptions = detail.storage.slice();
+    }
+    if (!this.selectedColor && this.colorOptions.length) this.selectedColor = this.colorOptions[0];
+    if (!this.selectedStorage && this.storageOptions.length) this.selectedStorage = this.storageOptions[0];
   }
 
   setMainImage(url: string) {
