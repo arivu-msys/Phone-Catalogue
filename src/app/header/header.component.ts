@@ -4,7 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { WishlistService } from '../wishlist/wishlist.service';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { selectCartCount } from '../store/cart/cart.selectors';
 
 @Component({
@@ -26,6 +26,10 @@ export class HeaderComponent implements OnInit {
   // categories loaded from assets/categories.json (objects with optional children)
   categories: Array<{ name: string; children?: Array<{ name: string }> }> = [];
 
+  // lists derived from phones
+  brands: string[] = [];
+  carriers: string[] = [];
+
   // track which mobile submenu indexes are expanded
   expandedSubmenus = new Set<number>();
   
@@ -37,6 +41,7 @@ export class HeaderComponent implements OnInit {
   mobileSuggestions: Array<any> = [];
   // observable for cart count
   cartCount$?: Observable<number>;
+  wishlistCount$?: Observable<number>;
   desktopQuery = '';
   mobileQuery = '';
   // index for keyboard navigation (desktop)
@@ -49,7 +54,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private hostRef: ElementRef<HTMLElement>,
     private http: HttpClient,
-    private router: Router,
+    public router: Router,
     private wishlist: WishlistService,
     private store: Store
   ) {}
@@ -110,12 +115,23 @@ export class HeaderComponent implements OnInit {
     this.loadPhones();
   // subscribe to cart count from store
   this.cartCount$ = this.store.select(selectCartCount);
+  // wishlist count
+  this.wishlistCount$ = this.wishlist.ids$.pipe(map((ids) => (ids || []).length));
   }
 
   // Load phones.json for autosuggest
   private loadPhones() {
     this.http.get<any[]>('/assets/phones/phones.json').subscribe((data) => {
       this.phones = data || [];
+      // derive brand and carrier lists for the header menus
+      const bset = new Set<string>();
+      const cset = new Set<string>();
+      for (const p of this.phones) {
+        if (p.brand) bset.add((p.brand || '').toString());
+        if (p.carrier) cset.add((p.carrier || '').toString());
+      }
+      this.brands = Array.from(bset).sort();
+      this.carriers = Array.from(cset).sort();
     });
   }
 
@@ -215,14 +231,33 @@ export class HeaderComponent implements OnInit {
       this.desktopActiveIndex = Math.max(this.desktopActiveIndex - 1, 0);
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      const sel = this.desktopSuggestions[this.desktopActiveIndex] || this.desktopSuggestions[0];
-      if (sel) this.selectSuggestion(sel, 'desktop');
+      // If user has actively navigated to a suggestion, select it.
+      if (this.desktopActiveIndex >= 0 && this.desktopActiveIndex < this.desktopSuggestions.length) {
+        const sel = this.desktopSuggestions[this.desktopActiveIndex];
+        if (sel) this.selectSuggestion(sel, 'desktop');
+      } else {
+        // No suggestion selected via keyboard: treat Enter as a search submit (do not auto-open first suggestion)
+        const q = this.desktopSearch?.nativeElement?.value || this.desktopQuery;
+        this.onSearch(q);
+        this.desktopSuggestions = [];
+        this.desktopActiveIndex = -1;
+      }
     }
   }
 
   // helper: categories excluding Home to avoid duplicate Home link
   get categoriesNoHome() {
     return this.categories.filter((c) => (c.name || '').toLowerCase() !== 'home');
+  }
+
+  // categories visible in nav (exclude Phones and Accessories and empty names)
+  get visibleCategories() {
+    return this.categoriesNoHome.filter((c) => {
+      const name = (c.name || '').toLowerCase().trim();
+      if (!name) return false;
+      if (name === 'phones' || name === 'accessories') return false;
+      return true;
+    });
   }
 
   // Toggle mobile submenu by index

@@ -71,7 +71,8 @@
 .suggestion-item .s-name { font-size:0.95rem; font-weight:600 }
 .suggestion-item .s-price { color:#0b5ed7; font-size:0.85rem }
 .wish-btn { background:transparent; border:none; cursor:pointer; padding:0.2rem 0.4rem; color:#888 }
-.wish-btn .faved { color:#e11d48 } 
+.wish-btn .faved { color:#0b5ed7 }
+.wish-btn:hover span { color: #0b5ed7 }
 .wish-btn span { font-size:1rem; }
 
 .search-input {
@@ -122,6 +123,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
 }
 
 .icon-btn svg { color: #0b5ed7 }
@@ -138,6 +140,24 @@
   line-height: 1;
   min-width: 18px;
   height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 4px;
+}
+
+.wish-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #0b5ed7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.6rem;
+  line-height: 1;
+  min-width: 16px;
+  height: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -204,7 +224,7 @@
   margin: 0 auto; /* center the nav container while keeping items left-aligned */
 }
 
-.pc-nav__list a { color: #1f2937; text-decoration: none }
+.pc-nav__list a { color: #1f2937; text-decoration: none; cursor: pointer }
 .pc-nav__list .has-sub { position: relative }
 .pc-nav__list a { position: relative; transition: color 180ms ease }
 .pc-nav__list a::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%) scaleX(0); bottom: -6px; height: 2px; width: 60%; background: #0b5ed7; border-radius: 2px; transform-origin: center; transition: transform 180ms ease }

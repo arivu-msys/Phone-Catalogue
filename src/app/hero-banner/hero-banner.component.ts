@@ -65,7 +65,7 @@ export class HeroBannerComponent implements OnInit, OnDestroy {
         subtitle: i === 0 ? 'New Release' : undefined,
         description: p.snippet ? p.snippet.split('\n')[0] : 'Explore the features and offers',
         imageUrl: p.imageUrl ? '/' + p.imageUrl : undefined,
-        category: p.carrier || 'Phones',
+        category: p.brand || 'Phones',
         hotspots: hotspotsFor(p.id)
       }));
     });
@@ -129,11 +129,12 @@ export class HeroBannerComponent implements OnInit, OnDestroy {
 
   goToPhone(id?: string) {
     if (!id) return;
-    this.router.navigate(['/category', id]);
+    this.router.navigate(['/product', id]);
   }
 
   goToCategory(cat?: string) {
     if (!cat) return;
-    this.router.navigate(['/category', cat]);
+    // treat banner category as brand — navigate to search results filtered by brand
+    this.router.navigate(['/search'], { queryParams: { brand: cat } });
   }
 }

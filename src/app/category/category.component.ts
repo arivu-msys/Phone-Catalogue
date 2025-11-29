@@ -9,15 +9,17 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, RouterModule],
   template: `
     <section class="category-page">
-      <h2>Category: {{ categoryName }}</h2>
-      <div *ngIf="phones?.length; else empty">
-        <ul class="phone-list">
-          <li *ngFor="let p of phones">{{ p.name }} — {{ p.mrp }}</li>
-        </ul>
+      <div class="site-container">
+        <h2>Category: {{ categoryName }}</h2>
+        <div *ngIf="phones?.length; else empty">
+          <ul class="phone-list">
+            <li *ngFor="let p of phones">{{ p.name }} — {{ p.mrp }}</li>
+          </ul>
+        </div>
+        <ng-template #empty>
+          <p>No phones found for this category.</p>
+        </ng-template>
       </div>
-      <ng-template #empty>
-        <p>No phones found for this category.</p>
-      </ng-template>
     </section>
   `,
   styles: [

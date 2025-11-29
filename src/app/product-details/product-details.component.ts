@@ -49,22 +49,33 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadProduct(id);
-    }
+    // Subscribe to route param changes so the same component instance reloads when the id changes
+    this.route.paramMap.subscribe((pm) => {
+      const id = pm.get('id');
+      if (id) this.loadProduct(id);
+    });
   }
 
   loadProduct(id: string) {
     // Prefer runtime API if apiBaseUrl is configured at runtime
     const apiBaseUrl = this.runtimeConfig.get('apiBaseUrl');
-    this.http.get<any>(`${apiBaseUrl}/api/phones/${id}`).subscribe(
+    const base = apiBaseUrl || 'http://localhost:3000';
+    this.http.get<any>(`${base}/api/phones/${id}`).subscribe(
       (detail) => {
         this.product = detail;
         this.handleLoadedDetail(detail);
       },
       (err) => {
-        console.warn('Failed to load product from API, falling back to local assets:', err);
+        // fallback: try to find product in local assets list
+        this.http.get<any[]>('/assets/phones/phones.json').subscribe((list) => {
+          const found = (list || []).find((p) => p.id === id || p.slug === id || p.name === id);
+          if (found) {
+            this.product = found;
+            this.handleLoadedDetail(found);
+          } else {
+            console.warn('Failed to load product from API and no local match found for id:', id, err);
+          }
+        });
       }
     );
     return;

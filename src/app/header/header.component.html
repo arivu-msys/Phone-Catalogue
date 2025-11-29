@@ -63,6 +63,7 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
           <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-9.6a5.5 5.5 0 0 0 0-7.8z" stroke="#0b5ed7" stroke-width="1" fill="none"/>
         </svg>
+        <span class="wish-badge" *ngIf="(wishlistCount$ | async) as wc">{{ wc }}</span>
       </button>
 
       <!-- Cart with badge -->
@@ -128,7 +129,25 @@
   <nav class="pc-nav" role="navigation">
     <ul class="pc-nav__list">
       <li><a [routerLink]="['/']">Home</a></li>
-      <li *ngFor="let c of categoriesNoHome" [class.has-sub]="c.children?.length">
+
+      <!-- Brands menu -->
+      <li class="has-sub">
+        <a (click)="null">Brand</a>
+        <ul class="sub">
+          <li *ngFor="let b of brands"><a (click)="router.navigate(['/search'], { queryParams: { brand: b } }); closeMenu()">{{ b }}</a></li>
+        </ul>
+      </li>
+
+      <!-- Carriers menu -->
+      <li class="has-sub">
+        <a (click)="null">Carrier</a>
+        <ul class="sub">
+          <li *ngFor="let c of carriers"><a (click)="router.navigate(['/search'], { queryParams: { carrier: c } }); closeMenu()">{{ c }}</a></li>
+        </ul>
+      </li>
+
+      <!-- remaining categories (exclude Phones/Accessories) -->
+      <li *ngFor="let c of visibleCategories" [class.has-sub]="c.children?.length">
         <a [routerLink]="c.name === 'Home' ? ['/'] : ['/category', c.name]">{{ c.name }}</a>
         <ul class="sub" *ngIf="c.children?.length">
           <li *ngFor="let s of c.children"><a [routerLink]="['/category', s.name]">{{ s.name }}</a></li>
@@ -147,26 +166,38 @@
           <path d="M6 6l12 12" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <ul class="mobile-menu-list">
-        <li><a [routerLink]="['/']">Home</a></li>
-        <li *ngFor="let c of categoriesNoHome; let i = index">
-          <div class="mobile-item-row">
-            <a *ngIf="!c.children?.length" [routerLink]="['/category', c.name]">{{ c.name }}</a>
-            <div *ngIf="c.children?.length" class="mobile-sub-toggle-row">
-              <a [routerLink]="['/category', c.name]">{{ c.name }}</a>
-              <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" [attr.aria-label]="'Toggle submenu'">
-                <!-- inline chevron svg matching theme -->
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
+        <ul class="mobile-menu-list">
+          <li><a [routerLink]="['/']">Home</a></li>
+          <li>
+            <div class="mobile-item-row"><span>Brand</span></div>
+            <ul class="mobile-sub">
+              <li *ngFor="let b of brands"><a (click)="router.navigate(['/search'], { queryParams: { brand: b } }); closeMenu()">{{ b }}</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="mobile-item-row"><span>Carrier</span></div>
+            <ul class="mobile-sub">
+              <li *ngFor="let c of carriers"><a (click)="router.navigate(['/search'], { queryParams: { carrier: c } }); closeMenu()">{{ c }}</a></li>
+            </ul>
+          </li>
+          <li *ngFor="let c of visibleCategories; let i = index">
+            <div class="mobile-item-row">
+              <a *ngIf="!c.children?.length" [routerLink]="['/category', c.name]">{{ c.name }}</a>
+              <div *ngIf="c.children?.length" class="mobile-sub-toggle-row">
+                <a [routerLink]="['/category', c.name]">{{ c.name }}</a>
+                <button class="mobile-sub-toggle" (click)="toggleSubmenu(i)" [attr.aria-expanded]="expandedSubmenus.has(i)" type="button" [attr.aria-label]="'Toggle submenu'">
+                  <!-- inline chevron svg matching theme -->
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                    <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
-          <ul class="mobile-sub" *ngIf="c.children?.length && expandedSubmenus.has(i)">
-            <li *ngFor="let s of c.children"><a [routerLink]="['/category', s.name]">{{ s.name }}</a></li>
-          </ul>
-        </li>
-      </ul>
+            <ul class="mobile-sub" *ngIf="c.children?.length && expandedSubmenus.has(i)">
+              <li *ngFor="let s of c.children"><a [routerLink]="['/category', s.name]">{{ s.name }}</a></li>
+            </ul>
+          </li>
+        </ul>
     </div>
   </div>
 </header>
