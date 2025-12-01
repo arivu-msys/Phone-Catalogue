@@ -12,6 +12,23 @@
     border-radius: 8px;
   }
 
+  /* Hover effect: lift the cart item and scale the image similar to .pc-card */
+  transition: transform .18s ease, box-shadow .18s ease;
+  border-radius: 12px;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 8px 22px rgba(0,0,0,.06);
+  }
+
+  .item-img {
+    transition: transform .18s ease;
+  }
+
+  &:hover .item-img {
+    transform: scale(1.06);
+  }
+
   .title {
     font-weight: 600;
     color: #1f2937;
