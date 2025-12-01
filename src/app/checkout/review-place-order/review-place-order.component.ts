@@ -133,7 +133,7 @@ export class ReviewPlaceOrderComponent {
     this.orderService.placeOrder(order).subscribe({
       next: (resp: any) => {
         try {
-          sessionStorage.setItem('orderResponse', JSON.stringify(resp));
+          sessionStorage.setItem('orderResponse', JSON.stringify(resp.receivedData));
         } catch (e) {
           console.warn('Could not persist order response to sessionStorage', e);
         }
