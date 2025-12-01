@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { WishlistService } from '../wishlist/wishlist.service';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { selectCartCount } from '../store/cart/cart.selectors';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import { selectCartCount } from '../store/cart/cart.selectors';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   // controls whether the mobile slide-down search is visible
   isSearchOpen = false;
   // controls whether the mobile menu is open
@@ -56,8 +57,13 @@ export class HeaderComponent implements OnInit {
     private http: HttpClient,
     public router: Router,
     private wishlist: WishlistService,
-    private store: Store
+    private store: Store,
+    private userService: UserService
   ) {}
+
+  // local username for template
+  userName: string | null = null;
+  private _subs: any[] = [];
 
   // Navigate to wishlist page (template-friendly)
   goToWishlist() {
@@ -117,6 +123,16 @@ export class HeaderComponent implements OnInit {
   this.cartCount$ = this.store.select(selectCartCount);
   // wishlist count
   this.wishlistCount$ = this.wishlist.ids$.pipe(map((ids) => (ids || []).length));
+  // subscribe to username from UserService
+  this._subs.push(
+    this.userService.userName$.subscribe((n) => {
+      this.userName = n;
+    })
+  );
+  }
+
+  ngOnDestroy(): void {
+    this._subs.forEach((s) => s.unsubscribe && s.unsubscribe());
   }
 
   // Load phones.json for autosuggest
