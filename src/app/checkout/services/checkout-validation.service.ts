@@ -5,20 +5,55 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class CheckoutValidationService {
-  private forms: FormGroup[] = [];
+  // keyed forms map so callers can retrieve by name
+  private keyed: Record<string, FormGroup> = {};
 
-  registerForm(form: FormGroup): void {
-    if (!this.forms.includes(form)) {
-      this.forms.push(form);
-    }
+  /**
+   * Register a FormGroup under a key. This is the only supported form registration API.
+   * Example: registerForm('customer', customerForm)
+   */
+  registerForm(name: string, form: FormGroup): void {
+    if (!name || !form) return;
+    this.keyed[name] = form;
+  }
+
+  /** Retrieve a keyed form */
+  getForm(name: string): FormGroup | undefined {
+    return this.keyed[name];
   }
 
   validateAll(): boolean {
     let allValid = true;
-    this.forms.forEach((f) => {
-      f.markAllAsTouched();
-      if (!f.valid) allValid = false;
+    const invalidForms: string[] = [];
+    Object.entries(this.keyed).forEach(([name, f]) => {
+      // ensure latest validation state
+      try {
+        f.markAllAsTouched();
+        f.updateValueAndValidity({ onlySelf: false });
+      } catch (e) {
+        // ignore if updateValueAndValidity not supported
+      }
+      if (!f.valid) {
+        allValid = false;
+        invalidForms.push(name);
+      }
     });
+
+    if (!allValid) {
+      // helpful debug output to pinpoint which form(s) failed and why
+      console.warn('[CheckoutValidation] validateAll failed for forms:', invalidForms);
+      invalidForms.forEach((n) => {
+        const form = this.keyed[n];
+        if (!form) return;
+        Object.keys(form.controls).forEach((cName) => {
+          const ctrl = form.controls[cName];
+          if (ctrl && ctrl.invalid) {
+            console.warn(`[CheckoutValidation] form='${n}' control='${cName}' errors:`, ctrl.errors);
+          }
+        });
+      });
+    }
+
     return allValid;
   }
 }

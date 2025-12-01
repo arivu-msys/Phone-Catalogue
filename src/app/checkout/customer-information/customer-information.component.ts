@@ -23,6 +23,7 @@ export class CustomerInformationComponent {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
     });
-    this.checkoutValidationService.registerForm(this.customerForm);
+  // register under a key so the review component can read values
+  this.checkoutValidationService.registerForm('customer', this.customerForm);
   }
 }

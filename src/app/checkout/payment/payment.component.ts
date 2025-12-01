@@ -34,7 +34,8 @@ export class PaymentComponent {
       cvv: ['', [Validators.required]],
       nameOnCard: ['', [Validators.required]],
     });
-    this.checkoutValidationService.registerForm(this.paymentForm);
+  // register under a key so the review component can read values
+  this.checkoutValidationService.registerForm('payment', this.paymentForm);
   }
 
   setMethod(method: PaymentMethod): void {

@@ -36,6 +36,7 @@ export class ShippingAddressComponent {
       saveForFuture: [false],
       billingSameAsShipping: [true],
     });
-    this.checkoutValidationService.registerForm(this.shippingForm);
+  // register under a key so the review component can read values
+  this.checkoutValidationService.registerForm('shipping', this.shippingForm);
   }
 }

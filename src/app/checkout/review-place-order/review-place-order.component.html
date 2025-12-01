@@ -28,13 +28,17 @@
     <button
       type="submit"
       class="btn btn-primary review-button d-flex justify-content-between align-items-center w-100"
-      [disabled]="reviewForm.invalid"
+      [disabled]="reviewForm.invalid || isSubmitting"
     >
+      <span class="me-2" *ngIf="submitSpinner">
+        <span class="spinner-border spinner-border-sm text-dark" role="status" aria-hidden="true"></span>
+      </span>
       <span>Place Order</span>
       <span class="review-button__amount">
         {{ (cartFinalTotal$ | async) | currency: 'USD':'symbol' }}
       </span>
     </button>
+  <div *ngIf="errorMessage" class="text-danger small mt-2">{{ errorMessage }}</div>
   </form>
 </section>
 
