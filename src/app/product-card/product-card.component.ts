@@ -18,7 +18,7 @@ import { WishlistService } from '../wishlist/wishlist.service';
       <div class="pc-card__body">
         <h3 class="pc-card__title">{{ product.name }}</h3>
         <div class="pc-card__meta">{{ product.brand || product.category }}</div>
-        <div class="pc-card__price">{{ product.dealPrice ?? product.price ?? product.mrp | currency }}</div>
+  <div class="pc-card__price">{{ (product.dealPrice ?? product.price ?? product.mrp) | currency: 'USD':'symbol' }}</div>
         <div class="pc-card__actions">
           <a [routerLink]="['/product', product.id || product.slug || product.name]" class="btn btn-outline-primary">View Details</a>
         </div>

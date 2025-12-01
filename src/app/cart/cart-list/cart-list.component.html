@@ -20,7 +20,7 @@
 
         <!-- Price column -->
         <div class="price-col text-center" style="width:110px">
-          <div class="deal-price">₹{{ it.dealPrice }}</div>
+          <div class="deal-price">{{ it.dealPrice | currency:'USD':'symbol' }}</div>
         </div>
 
         <!-- Quantity column -->
@@ -34,7 +34,7 @@
 
         <!-- Total column -->
         <div class="total-col text-end" style="width:100px">
-          <div class="item-total">₹{{ ((+it.dealPrice || 0) * it.quantity) | number:'1.0-0' }}</div>
+          <div class="item-total">{{ ((+it.dealPrice || 0) * it.quantity) | currency:'USD':'symbol' }}</div>
         </div>
       </div>
     </div>
