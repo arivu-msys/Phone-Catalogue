@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { RuntimeConfigLoaderService } from '../core/services/runtime-config-loader.service';
 import { Store } from '@ngrx/store';
 import { CartItem } from '../store/cart/cart-item.model';
@@ -10,7 +10,7 @@ import { updateOrAddItem } from '../store/cart/cart.actions';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
