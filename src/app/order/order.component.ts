@@ -58,6 +58,7 @@ export class OrderComponent {
 
   ngAfterViewInit(): void {
     this.calculateScrollAmount();
+    window.scrollTo(0, 0);
   }
 
   @HostListener('window:resize')
@@ -120,4 +121,5 @@ export class OrderComponent {
   private generateOrderNumber(): string {
     return Math.floor(10000000 + Math.random() * 90000000).toString();
   }
+  
 }
