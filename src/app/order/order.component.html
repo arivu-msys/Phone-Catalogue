@@ -21,11 +21,11 @@
               <h4 class="mb-0">Customer Contact Information</h4>
             </div>
             <div class="col-12 col-md-6">
-              <div class="customer-info">
-                <div><strong>Name:</strong> John Doe</div>
-                <div><strong>Address:</strong> 123 Main Street, Springfield, USA</div>
-                <div><strong>Phone Number:</strong> (555) 123-4567</div>
-                <div><strong>Email:</strong> johndoe&#64;example.com</div>
+              <div class="customer-info" *ngIf="orderResponse && orderResponse.customer">
+                <div><strong>Name:</strong> {{ orderResponse.customer.firstName }}&nbsp;{{ orderResponse.customer.lastName }}</div>
+                <div><strong>Address:</strong> {{ orderResponse.shipping.apartment}}, {{ orderResponse.shipping.streetAddress}}, {{ orderResponse.shipping.city}}, {{ orderResponse.shipping.country}} - {{orderResponse.shipping.zipCode}}</div>
+                <div><strong>Phone Number:</strong> {{ orderResponse.customer.phone || '-' }}</div>
+                <div><strong>Email:</strong> {{ orderResponse.customer.email || '-' }}</div>
               </div>
             </div>
           </div>
@@ -35,47 +35,104 @@
   </div>
 
   <div class="d-flex justify-content-center mt-4 mb-5">
-    <div style="max-width:1082px; width:100%;">
-      <div class="card shadow-sm">
-        <div class="card-body p-4">
-          <h4 class="mb-4 text-start">Order Details</h4>
-          <div *ngFor="let item of cartItems" class="row mb-3 align-items-center">
-            <div class="col-3 col-md-2">
-              <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.title" class="img-fluid rounded" style="max-width:80px;">
+  <div style="max-width:1082px; width:100%;">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+
+        <h4 class="mb-4 text-start">Order Details</h4>
+
+        <!-- Desktop Header -->
+        <div class="row fw-bold border-bottom pb-2 mb-2 text-center d-none d-md-flex">
+          <div class="col-3">Image</div>
+          <div class="col-3 text-start">Item</div>
+          <div class="col-2">Unit Price</div>
+          <div class="col-2">Quantity</div>
+          <div class="col-2">Total</div>
+        </div>
+
+        <!-- Item Rows -->
+        <div *ngFor="let item of cartItems"
+             class="row mb-3 align-items-center text-center p-2 border rounded">
+
+          <!-- IMAGE -->
+          <div class="col-12 col-md-3 mb-2 mb-md-0">
+            <img *ngIf="item.imageUrl"
+                 [src]="item.imageUrl"
+                 [alt]="item.title"
+                 class="img-fluid rounded"
+                 style="max-width:80px;">
+          </div>
+
+          <!-- ITEM NAME -->
+          <div class="col-12 col-md-3 text-md-start">
+            <div class="fw-bold">{{ item.title }}</div>
+            <div *ngIf="item.category" class="text-muted small">
+              Category: {{ item.category }}
             </div>
-            <div class="col-9 col-md-7">
-              <div class="fw-bold">{{item.title}}</div>
-              <div *ngIf="item.category">Category: {{item.category}}</div>
-            </div>
-            <div class="col-12 col-md-3 text-md-end mt-2 mt-md-0">
-              <div class="fw-bold fs-5">${{item.dealPrice}}</div>
+
+            <!-- Mobile Price Breakdown -->
+            <div class="d-md-none mt-2 small">
+              <div>Unit Price: ${{ item.dealPrice }}</div>
+              <div>Quantity: {{ item.quantity || 1 }}</div>
+              <div class="fw-bold">
+                Total: ${{ (item.dealPrice * (item.quantity || 1)).toFixed(2) }}
+              </div>
             </div>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-12 col-md-6 offset-md-6">
-              <div class="d-flex justify-content-between">
-                <span>Item Subtotal:</span>
-                <span>{{ getSubtotal() }}</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <span>Shipping &amp; Handling:</span>
-                <span>$0.00</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <span><em>Discount/Credit:</em></span>
-                <span><em>{{ getDiscount() }}</em></span>
-              </div>
-              <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
-                <span>Order Total:</span>
-                <span>{{ getOrderTotal() }}</span>
-              </div>
+
+          <!-- DESKTOP COLUMNS -->
+          <div class="col-md-2 d-none d-md-block">
+            ${{ item.dealPrice }}
+          </div>
+
+          <div class="col-md-2 d-none d-md-block">
+            {{ item.quantity || 1 }}
+          </div>
+
+          <div class="col-md-2 d-none d-md-block text-end">
+            ${{ (item.dealPrice * (item.quantity || 1)).toFixed(2) }}
+          </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Summary Section -->
+        <div class="row">
+          <div class="col-12 col-md-5 offset-md-7">
+
+            <div class="d-flex justify-content-between">
+              <span>Item Subtotal:</span>
+              <span>{{ getSubtotal() }}</span>
             </div>
+
+            <div class="d-flex justify-content-between">
+              <span>Shipping</span>
+              <span>${{ orderResponse.pricing.shippingPrice.toFixed(2) }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span>Tax</span>
+              <span>${{ orderResponse.pricing.tax.toFixed(2) }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span>Discount</span>
+              <span>- ${{ orderResponse.pricing.promoDiscountAvailable.toFixed(2) }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
+              <span>Order Total:</span>
+              <span>{{ getOrderTotal() }}</span>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   </div>
+</div>
 
   <div class="d-flex justify-content-center mt-4">
     <div style="max-width:1082px; width:100%;">
@@ -84,10 +141,10 @@
           <div class="card h-100">
             <div class="card-body text-start">
               <h5 class="card-title mb-3">Payment Details</h5>
-              <div><strong>Payment Method:</strong> Credit Card (**** **** **** 1234)</div>
-              <div><strong>Transaction ID:</strong> 9876543210</div>
+              <div><strong>Payment Method:</strong> {{ orderResponse.payment.method || '-' }}</div>
+              <div><strong>Transaction ID:</strong> {{transactionId}}</div>
               <div><strong>Payment Status:</strong> Paid</div>
-              <div><strong>Billing Address:</strong> 123 Main Street, Springfield, USA</div>
+              <div><strong>Billing Address:</strong> {{ orderResponse.shipping.apartment}}, {{ orderResponse.shipping.streetAddress}}, {{ orderResponse.shipping.city}}, {{ orderResponse.shipping.country}} - {{orderResponse.shipping.zipCode}}</div>
             </div>
           </div>
         </div>
@@ -97,8 +154,8 @@
               <h5 class="card-title mb-3">Questions About Your Order?</h5>
               <p>If you have any questions or need help with your order, please contact our support team:</p>
               <ul class="mb-0">
-                <li>Email: <a href="mailto:support&#64;example.com">support&#64;example.com</a></li>
-                <li>Phone: (555) 987-6543</li>
+                <li>Email: <a href="mailto:support&#64;phonecatalogue.com">support&#64;phonecatalogue.com</a></li>
+                <li>Phone: +91 98765 43210</li>
                 <li>Live Chat: Available 9am - 6pm</li>
               </ul>
             </div>

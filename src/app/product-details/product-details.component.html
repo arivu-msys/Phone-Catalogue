@@ -66,25 +66,7 @@
 
         
 
-        <!-- Configuration: Color (Apple-like swatches) -->
-        <div class="mb-3">
-          <label class="form-label">Color</label>
-          <div class="d-flex gap-2 align-items-center mt-2">
-            <button *ngFor="let c of colorOptions" type="button" class="btn swatch-btn p-2"
-                    [class.selected]="c===selectedColor" (click)="selectColor(c)" [attr.aria-pressed]="c===selectedColor">
-              <span class="swatch-dot" [ngStyle]="{'background': (c==='gold'? '#d4af37' : (c==='silver'? '#c0c0c0' : (c==='pink'? '#f3c6d3' : (c==='blue'? '#2563eb' : c))))}"></span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Configuration: Storage options -->
-        <div class="mb-3">
-          <label class="form-label">Storage</label>
-          <div class="d-flex gap-2 mt-2">
-            <button *ngFor="let s of storageOptions" type="button" class="btn btn-outline-secondary storage-option"
-                    [class.active]="s===selectedStorage" (click)="selectStorage(s)">{{s}}</button>
-          </div>
-        </div>
+        
 
         <!-- rotation controls moved to top of image -->
          <div class="mb-3 d-flex gap-2">

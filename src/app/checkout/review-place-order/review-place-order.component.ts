@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
@@ -36,7 +36,8 @@ export class ReviewPlaceOrderComponent {
     private fb: FormBuilder,
     private checkoutValidationService: CheckoutValidationService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     // initialize store-backed observables
     this.cartFinalTotal$ = this.store.select(selectFinalTotal);
@@ -120,10 +121,31 @@ export class ReviewPlaceOrderComponent {
       return;
     }
 
+    // Fetch cart items from localStorage 'cart'
+    let items: any[] = [];
+    let pricing: any = {};
+    try {
+      const cartData = localStorage.getItem('cart');
+      if (cartData) {
+        const parsed = JSON.parse(cartData);
+        if (parsed && parsed.items && Array.isArray(parsed.items)) {
+          items = parsed.items;
+        } else if (Array.isArray(parsed)) {
+          items = parsed;
+        }
+        pricing = parsed.pricing;
+      }
+    } catch (e) {
+      console.warn('Could not parse cart items from localStorage', e);
+    }
+
+
     const order: Order = {
       customer: { ...(customerForm.value || {}) },
       shipping: { ...(shippingForm.value || {}) },
       payment: { ...(paymentForm.value || {}) },
+      items: items,
+      pricing: pricing
     };
 
     // prevent duplicate submits and show spinner inside button
@@ -143,11 +165,13 @@ export class ReviewPlaceOrderComponent {
         } catch (e) {
           console.warn('Could not dispatch clearCart', e);
         }
+        this.cdr.detectChanges();
         this.router.navigate(['/order']).catch((navErr) => {
           console.error('Navigation to /home failed', navErr);
           // if navigation fails, re-enable UI so user can retry
           this.isSubmitting = false;
           this.submitSpinner = false;
+          this.cdr.detectChanges();
         });
       },
       error: (err: any) => {
@@ -156,6 +180,7 @@ export class ReviewPlaceOrderComponent {
         this.errorMessage = 'Some issue while booking. Please try again!';
         this.isSubmitting = false;
         this.submitSpinner = false;
+        this.cdr.detectChanges();
       },
     });
   }

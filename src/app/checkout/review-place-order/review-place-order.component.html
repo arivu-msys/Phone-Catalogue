@@ -35,7 +35,7 @@
       </span>
       <span>Place Order</span>
       <span class="review-button__amount">
-        {{ (cartFinalTotal$ | async) | currency: 'USD':'symbol' }}
+        {{ ((cartFinalTotal$ | async) ?? 0) | currency: 'USD':'symbol' }}
       </span>
     </button>
   <div *ngIf="errorMessage" class="text-danger small mt-2">{{ errorMessage }}</div>

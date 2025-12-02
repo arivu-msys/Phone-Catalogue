@@ -16,8 +16,10 @@ import { clearCart } from '../store/cart/cart.actions';
 })
 export class OrderComponent {
   orderNumber: string = '';
+  transactionId: string = '';
   cartItems: any[] = [];
   pricing: any | undefined;
+  orderResponse: any = null;
 
   @ViewChild('recentTrack', { static: false }) recentTrack!: ElementRef<HTMLDivElement>;
 
@@ -36,12 +38,19 @@ export class OrderComponent {
 
   constructor(private store: Store, private router: Router) {
     this.orderNumber = this.generateOrderNumber();
+    this.transactionId = this.generateOrderNumber();
 
-    // Capture current cart items then clear the cart in the store
-    firstValueFrom(this.store.select(selectCartItems)).then((items) => {
-      this.cartItems = items || [];
-      this.store.dispatch(clearCart());
-    });
+    // Fetch orderResponse from sessionStorage
+    try {
+      const resp = sessionStorage.getItem('orderResponse');
+      if (resp) {
+        this.orderResponse = JSON.parse(resp);
+        this.cartItems = this.orderResponse.items || [];
+      }
+    } catch (e) {
+      this.orderResponse = null;
+      this.cartItems = [];
+    }
 
     // Capture pricing if available (non-blocking)
     firstValueFrom(this.store.select(selectCartPricing)).then((p) => (this.pricing = p));
@@ -97,21 +106,14 @@ export class OrderComponent {
     return `$${subtotal.toFixed(2)}`;
   }
 
-  getDiscount(): string {
-    const subtotal = (this.cartItems || []).reduce((total: number, item: any) => {
-      return total + (item.dealPrice || 0) * (item.quantity || 1);
-    }, 0);
-    const discount = subtotal > 500 ? 90 : 0;
-    return discount === 0 ? '$0.00' : `-$${discount.toFixed(2)}`;
-  }
-
   getOrderTotal(): string {
     const subtotal = (this.cartItems || []).reduce((total: number, item: any) => {
       return total + (item.dealPrice || 0) * (item.quantity || 1);
     }, 0);
-    const discount = subtotal > 500 ? 90 : 0;
-    const shipping = this.pricing ? this.pricing.shippingPrice || 0 : 0;
-    const total = subtotal - discount + shipping;
+    const discount = this.orderResponse.pricing.appliedPromoDiscount || 0;
+    const shipping = this.orderResponse.pricing.shippingPrice || 0;
+    const tax = this.orderResponse.pricing.tax || 0;
+    const total = subtotal - discount + shipping + tax;
     return `$${total.toFixed(2)}`;
   }
 

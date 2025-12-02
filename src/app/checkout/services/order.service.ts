@@ -33,6 +33,8 @@ export interface Order {
   customer: Customer;
   shipping: Shipping;
   payment: Payment;
+  items: any[];
+  pricing: any;
   // optional metadata
   meta?: Record<string, any>;
 }
