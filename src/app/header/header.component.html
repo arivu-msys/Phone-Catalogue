@@ -50,14 +50,16 @@
         </svg>
       </button>
 
-      <!-- User icon -->
-      <button class="icon-btn" [attr.aria-label]="'Account'">
-        <span id="userName" class="p-1" [innerHTML]="userName"></span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="12" cy="7" r="4" stroke="#0b5ed7" stroke-width="2"/>
-        </svg>
-      </button>
+      <!-- User action: welcome text + icon -->
+      <div class="user-action">
+        <button class="icon-btn user-btn" [attr.aria-label]="'Account'">
+          <span class="user-welcome" *ngIf="userName">Welcome,&nbsp;<span class="user-name">{{ userName }}</span></span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" [attr.aria-hidden]="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="7" r="4" stroke="#0b5ed7" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
 
       <!-- Wishlist icon -->
       <button class="icon-btn" [attr.aria-label]="'Wishlist'" (click)="goToWishlist()">
@@ -170,14 +172,32 @@
         <ul class="mobile-menu-list">
           <li><a [routerLink]="['/']">Home</a></li>
           <li>
-            <div class="mobile-item-row"><span>Brand</span></div>
-            <ul class="mobile-sub">
+            <div class="mobile-item-row">
+              <div class="mobile-sub-toggle-row">
+                <span>Brand</span>
+                <button class="mobile-sub-toggle" (click)="toggleBrand()" [attr.aria-expanded]="expandedBrand" type="button" aria-label="Toggle Brand submenu">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                    <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <ul class="mobile-sub" *ngIf="expandedBrand">
               <li *ngFor="let b of brands"><a (click)="router.navigate(['/search'], { queryParams: { brand: b } }); closeMenu()">{{ b }}</a></li>
             </ul>
           </li>
           <li>
-            <div class="mobile-item-row"><span>Carrier</span></div>
-            <ul class="mobile-sub">
+            <div class="mobile-item-row">
+              <div class="mobile-sub-toggle-row">
+                <span>Carrier</span>
+                <button class="mobile-sub-toggle" (click)="toggleCarrier()" [attr.aria-expanded]="expandedCarrier" type="button" aria-label="Toggle Carrier submenu">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                    <path d="M6 9l6 6 6-6" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <ul class="mobile-sub" *ngIf="expandedCarrier">
               <li *ngFor="let c of carriers"><a (click)="router.navigate(['/search'], { queryParams: { carrier: c } }); closeMenu()">{{ c }}</a></li>
             </ul>
           </li>

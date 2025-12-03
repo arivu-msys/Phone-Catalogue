@@ -7,7 +7,7 @@
 }
 
 .pc-header__container {
-  max-width: 1100px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -220,7 +220,7 @@
   justify-content: flex-start; /* left align menu items inside container */
   align-items: center;
   font-size: 0.95rem;
-  max-width: 1100px; /* align with hero container */
+  max-width: 1320px; /* align with hero container */
   margin: 0 auto; /* center the nav container while keeping items left-aligned */
 }
 
@@ -262,6 +262,8 @@
 }
 .mobile-menu.open { left: 0 }
 .mobile-menu-inner { padding: 1rem }
+/* make inner area scrollable so long lists don't overflow the viewport */
+.mobile-menu-inner { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch }
 .mobile-menu-close { background: transparent; border: none; margin-bottom: 0.5rem }
 .mobile-menu-list { list-style: none; padding: 0; margin: 0 }
 .mobile-menu-list li { padding: 0.5rem 0 }
@@ -293,6 +295,20 @@
 .mobile-item-row { display:flex; align-items:center; justify-content:space-between }
 .mobile-sub-toggle-row { display:flex; align-items:center; gap:0.5rem }
 .mobile-sub-toggle { background:transparent; border:none; font-size:1rem; cursor:pointer }
+
+/* User welcome text next to icon */
+.user-action { display: inline-flex; align-items: center }
+.user-btn { display: inline-flex; align-items: center; gap: 0.5rem }
+.user-welcome { color: #0b2540; font-size: 0.95rem; margin-right: 0.25rem }
+.user-name { color: #0b5ed7; font-weight: 600 }
+
+/* clickable affordances */
+.mobile-item-row span, .mobile-sub-toggle-row span { cursor: pointer }
+
+@media (max-width: 768px) {
+  /* hide the welcome text on narrow screens to avoid overcrowding */
+  .user-welcome { display: none }
+}
 
 /* Icon visibility and layout tweaks across breakpoints */
 @media (max-width: 768px) {

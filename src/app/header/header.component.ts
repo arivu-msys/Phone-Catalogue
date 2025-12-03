@@ -33,6 +33,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // track which mobile submenu indexes are expanded
   expandedSubmenus = new Set<number>();
+  // separate flags for Brand and Carrier mobile submenu toggles
+  expandedBrand = false;
+  expandedCarrier = false;
   
   // phones data used for autosuggest
   phones: Array<any> = [];
@@ -280,6 +283,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleSubmenu(i: number) {
     if (this.expandedSubmenus.has(i)) this.expandedSubmenus.delete(i);
     else this.expandedSubmenus.add(i);
+  }
+
+  // Toggle Brand submenu (mobile)
+  toggleBrand() {
+    this.expandedBrand = !this.expandedBrand;
+  }
+
+  // Toggle Carrier submenu (mobile)
+  toggleCarrier() {
+    this.expandedCarrier = !this.expandedCarrier;
   }
 
   // Listen for document clicks and close the mobile search/menu if click is outside this component

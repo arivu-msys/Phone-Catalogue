@@ -1,12 +1,8 @@
-.product-details {
-  padding: 24px;
-}
-
 /* Ensure product-details fills viewport and allows vertical scrolling of the central content area */
 /* Use normal document flow for scrolling (body scroll: header + content + footer) */
 .product-details {
   /* keep padding only; avoid forcing full-viewport flex layout which may create inner scroll */
-  padding: 24px;
+  padding: 24px 1rem;
 }
 .breadcrumb { color: #6b7280; margin-bottom: 40px }
 .viewer-frame {

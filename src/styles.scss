@@ -8,3 +8,15 @@
 	margin: 0 auto;
 	padding: 0 1rem;
 }
+.site-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Ensure Bootstrap or local `.container` usages align to the same max width on desktop */
+.container {
+	max-width: 1320px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}

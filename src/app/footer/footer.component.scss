@@ -11,7 +11,7 @@
   padding: 2.5rem 0 1.5rem 0;
 }
 .container {
-  max-width: 1100px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -165,11 +165,17 @@
   font-size: 0.97rem;
   color: #223;
 }
-.pay-icons svg, .pay-icons .pay-icon { 
+.pay-icons svg, .pay-icons .pay-icon {
   margin-right: 0.8em;
   vertical-align: middle;
-  width: 26px;
-  height: 26px;
+  height: 20px;
+  width: auto;
+  display: inline-block;
+}
+
+/* Slightly larger payment icons on desktop */
+@media (min-width: 769px) {
+  .pay-icons svg, .pay-icons .pay-icon { height: 26px }
 }
 .footer-links-inline {
   display: flex;
