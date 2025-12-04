@@ -1,21 +1,24 @@
 
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserService } from './core/services/user.service';
+import { TitleBannerComponent } from './title-banner/title-banner.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, TitleBannerComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'Phone-Catalogue';
+  pageTitle: string | null = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {}
-
   ngOnInit() {
   this.route.queryParams.subscribe(params => {
     let token = params['token'];
@@ -76,6 +79,28 @@ export class AppComponent {
         queryParams: { token: null },
         queryParamsHandling: 'merge'
       });
+    }
+  });
+
+  // update page title on navigation end using route data.title or the last path segment
+  this.router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd)).subscribe(() => {
+    try {
+      const root = this.router.routerState.root;
+      let route: any = root;
+      let lastTitle = '';
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
+      // prefer route data.title if provided
+      lastTitle = (route.snapshot && route.snapshot.data && route.snapshot.data['title']) || '';
+      if (!lastTitle) {
+        // fallback to path segment
+        const seg = route.snapshot?.url?.map((s: any) => s.path).join('/') || '';
+        lastTitle = seg ? seg.replace(/-/g, ' ') : '';
+      }
+      this.pageTitle = lastTitle || 'Home';
+    } catch {
+      this.pageTitle = this.title;
     }
   });
 }

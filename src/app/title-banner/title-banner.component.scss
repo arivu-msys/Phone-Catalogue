@@ -1,0 +1,47 @@
+.title-banner {
+  width: 100%;
+  background: #f5f8fc;
+  height: 80px; /* exact required height */
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  &__inner {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left { display: flex; align-items: center; }
+
+  .page-title {
+    font-weight: 700;
+    font-size: 22px;
+    color: #1c2b33; /* dark grey */
+    padding-left: 10px;
+  }
+
+  .capitalize-first-letter::first-letter {
+    text-transform: uppercase;
+    }
+
+  &__right { display: flex; align-items: center; gap: 8px; }
+
+  .home-link {
+    color: #0d6efd;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .home-link:hover { text-decoration: underline; }
+
+  .breadcrumb-sep { padding: 0 6px; color: #495057; }
+
+  .breadcrumb-current { color: #1c2b33; font-weight: 500; }
+
+  @media (max-width: 600px) {
+    .page-title { font-size: 18px; }
+    &__inner { padding: 0 12px; }
+  }
+}

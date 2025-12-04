@@ -29,6 +29,15 @@
   border-bottom: 1px solid #eef2f6;
 }
 
+.cart-header-row {
+    border-radius: 8px;
+    border-top: 5px solid #0a4db8;
+    padding-right: 10px;
+}
+.cart-right-inner {
+   border-radius: 8px;
+    border-top: 5px solid #0a4db8;
+}
 .empty-cart-msg { font-size: 20px; color: #374151 }
 .continue-center { padding: 10px 24px; border-radius: 28px;
   background: #adb8c7;

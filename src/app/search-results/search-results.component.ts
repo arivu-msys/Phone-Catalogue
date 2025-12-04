@@ -34,12 +34,12 @@ type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | '';
           <aside class="filters" *ngIf="items.length" [class.open]="mobileFiltersOpen">
           <div class="filters__inner">
             <div class="filters__header">
-              <h3>Filters</h3>
+              <h5>Filters</h5>
               <button class="btn btn-sm btn-outline-primary" (click)="clearFilters()">Clear Filters</button>
             </div>
 
               <section class="filter-group">
-                <h4>Carrier</h4>
+                <h6>Carrier</h6>
                 <div *ngFor="let c of (availableCarriers$ | async)">
                   <label class="form-check">
                     <input type="checkbox" class="form-check-input" [checked]="isCarrierSelected(c)" (change)="toggleCarrier(c)" />
@@ -49,7 +49,7 @@ type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | '';
               </section>
 
               <section class="filter-group">
-                <h4>Brand</h4>
+                <h6>Brand</h6>
                 <div *ngFor="let b of (availableBrands$ | async)">
                   <label class="form-check">
                     <input type="checkbox" class="form-check-input" [checked]="isBrandSelected(b)" (change)="toggleBrand(b)" />
@@ -59,7 +59,7 @@ type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | '';
               </section>
 
               <section class="filter-group">
-                <h4>Screen Size</h4>
+                <h6>Screen Size</h6>
                 <div *ngFor="let s of (availableScreens$ | async)">
                   <label class="form-check">
                     <input type="checkbox" class="form-check-input" [checked]="isScreenSelected(s)" (change)="toggleScreen(s)" />
