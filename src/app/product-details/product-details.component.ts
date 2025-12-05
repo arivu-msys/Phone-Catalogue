@@ -89,7 +89,7 @@ export class ProductDetailsComponent implements OnInit {
     const cartItem: CartItem = {
       productId: productId,
       title: product.name,
-      dealPrice: product.dealPrice + 0,
+      dealPrice: product.dealPrice,
       mrp: product.mrp,
       quantity: this.quantity,
       imageUrl: product.images[0],

@@ -26,7 +26,7 @@
                 <img class="thumb" [src]="s.imageUrl ? '/' + s.imageUrl : '/img/phones/placeholder.png'" alt="{{s.name}}"/>
                 <div class="meta">
                   <div class="s-name">{{ s.name }}</div>
-                  <div class="s-price">{{ s.dealPrice || s.mrp || '' }}</div>
+                  <div class="s-price">{{ s.dealPrice || s.mrp | currency:'USD':'symbol'  }}</div>
                 </div>
                 <button type="button" class="wish-btn" [attr.aria-label]="'Toggle wishlist'" (click)="toggleWishlistFor(s, $event)">
                   <span [class.faved]="isInWishlist(s.id)">♥</span>

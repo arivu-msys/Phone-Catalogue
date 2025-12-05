@@ -39,8 +39,8 @@
         </div>
 
         <div class="d-flex align-items-baseline gap-3 mb-3">
-          <div class="fs-4 fw-bold">{{product.dealPrice}}</div>
-          <div class="text-muted text-decoration-line-through">{{product.mrp}}</div>
+          <div class="fs-4 fw-bold">{{ product.dealPrice | currency:'USD':'symbol' }}</div>
+          <div class="text-muted text-decoration-line-through">{{ product.mrp | currency:'USD':'symbol' }}</div>
         </div>
 
         <p class="text-secondary">{{product.snippet}}</p>

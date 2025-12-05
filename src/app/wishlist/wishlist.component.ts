@@ -17,7 +17,7 @@ import { WishlistService } from './wishlist.service';
             <img [src]="it.imageUrl ? '/' + it.imageUrl : '/img/phones/placeholder.png'" alt="{{it.name}}" />
             <div class="meta">
               <div class="name">{{ it.name }}</div>
-              <div class="price">{{ it.dealPrice || it.mrp }}</div>
+              <div class="price">{{ it.dealPrice || it.mrp | currency:'USD':'symbol'}}</div>
             </div>
             <button class="remove-btn" (click)="remove(it.id)">Remove</button>
           </li>

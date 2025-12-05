@@ -116,7 +116,7 @@
 /* Additional mobile-specific rule: right-align price and qty for small phones (<768px) */
 @media (max-width: 767px) {
   .price-col, .qty-col, .total-col {
-    text-align: right !important;
+    text-align: center !important;
   }
 
   .qty-pill { justify-content: flex-end; }

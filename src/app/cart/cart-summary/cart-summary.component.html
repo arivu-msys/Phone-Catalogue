@@ -28,7 +28,7 @@
       </div>
 
     <div class="d-flex justify-content-between mt-3"><div>Tax</div><div>{{ pricing.tax | currency:'USD':'symbol' }}</div></div>
-  <div class="d-flex justify-content-between"><div>Promo Discount</div><div class="text-success">-{{ pricing.appliedPromoDiscount || 0 | currency:'USD':'symbol' }}</div></div>
+  <div class="d-none d-flex justify-content-between"><div>Promo Discount</div><div class="text-success">-{{ pricing.appliedPromoDiscount || 0 | currency:'USD':'symbol' }}</div></div>
     </div>
 
   <hr />
