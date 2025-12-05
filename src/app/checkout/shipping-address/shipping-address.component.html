@@ -1,6 +1,10 @@
 <div class="card mb-4">
   <div class="card-body">
-    <h3>Shipping Address</h3>
+    <div class="review-card__header d-flex align-items-center">
+      <div class="step-indicator d-flex align-items-center justify-content-center me-3"><span>2</span></div>
+      <h3 class="review-card__title mb-0">Shipping Address</h3>
+    </div>
+    <hr class="my-3" />
     <form [formGroup]="shippingForm">
       <div class="mb-3">
         <label class="form-label">Street address <span class="required-indicator">*</span></label>
