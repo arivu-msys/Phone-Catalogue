@@ -20,6 +20,14 @@
   padding-left: 1rem;
 }
 
+/* Make sticky summary only on desktop */
+@media (max-width: 991px) {
+  .cart-right-inner { position: static; top: auto; margin-top: 16px; }
+  .cart-left { padding-right: 0; }
+  .cart-right { padding-left: 0; }
+  .cart-container { padding: 0 12px; }
+}
+
 .cart-header-row {
   display: flex;
   gap: 1rem;

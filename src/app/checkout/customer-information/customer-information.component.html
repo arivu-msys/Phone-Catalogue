@@ -6,31 +6,33 @@
       <!-- simplified fields -->
       <div class="mb-3">
         <label class="form-label">First name <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="firstName" />
+  <input class="form-control" formControlName="firstName" [attr.aria-invalid]="customerForm.get('firstName')?.invalid && customerForm.get('firstName')?.touched" />
         <div *ngIf="customerForm.get('firstName')?.touched && customerForm.get('firstName')?.invalid" class="text-danger small mt-1">
           First name is required.
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Last name <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="lastName" />
+  <input class="form-control" formControlName="lastName" [attr.aria-invalid]="customerForm.get('lastName')?.invalid && customerForm.get('lastName')?.touched" />
         <div *ngIf="customerForm.get('lastName')?.touched && customerForm.get('lastName')?.invalid" class="text-danger small mt-1">
           Last name is required.
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Email <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="email" />
-        <div *ngIf="customerForm.get('email')?.touched && customerForm.get('email')?.invalid" class="text-danger small mt-1">
+  <input class="form-control" formControlName="email" [attr.aria-invalid]="customerForm.get('email')?.invalid && customerForm.get('email')?.touched" />
+  <div *ngIf="customerForm.get('email')?.touched && customerForm.get('email')?.invalid" class="text-danger small mt-1">
           <span *ngIf="customerForm.get('email')?.errors?.['required']">Email is required.</span>
           <span *ngIf="customerForm.get('email')?.errors?.['email']">Enter a valid email address.</span>
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Phone <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="phone" />
+  <input class="form-control" formControlName="phone" maxlength="15" inputmode="numeric" [attr.aria-invalid]="customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched" />
         <div *ngIf="customerForm.get('phone')?.touched && customerForm.get('phone')?.invalid" class="text-danger small mt-1">
-          Phone is required.
+          <span *ngIf="customerForm.get('phone')?.errors?.['required']">Phone is required.</span>
+          <span *ngIf="customerForm.get('phone')?.errors?.['digitsOnly']">Use digits only.</span>
+          <span *ngIf="customerForm.get('phone')?.errors?.['maxLength']">Max length is 15.</span>
         </div>
       </div>
     </form>

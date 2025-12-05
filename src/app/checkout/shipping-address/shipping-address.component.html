@@ -31,9 +31,11 @@
 
         <div class="col-md-4 mb-3">
           <label class="form-label">ZIP Code <span class="required-indicator">*</span></label>
-          <input class="form-control" formControlName="zipCode" />
+    <input class="form-control" formControlName="zipCode" maxlength="6" inputmode="numeric" [attr.aria-invalid]="shippingForm.get('zipCode')?.invalid && shippingForm.get('zipCode')?.touched" />
           <div *ngIf="shippingForm.get('zipCode')?.touched && shippingForm.get('zipCode')?.invalid" class="text-danger small mt-1">
-            ZIP Code is required.
+            <span *ngIf="shippingForm.get('zipCode')?.errors?.['required']">ZIP Code is required.</span>
+            <span *ngIf="shippingForm.get('zipCode')?.errors?.['digitsOnly']">Use digits only.</span>
+            <span *ngIf="shippingForm.get('zipCode')?.errors?.['maxLength']">Max length is 6.</span>
           </div>
         </div>
 

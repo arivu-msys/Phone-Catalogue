@@ -4,32 +4,39 @@
     <form [formGroup]="paymentForm">
       <div class="mb-3">
         <label class="form-label">Card number <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="cardNumber" />
+    <input class="form-control" formControlName="cardNumber" maxlength="19" inputmode="numeric" [attr.aria-invalid]="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched" />
         <div *ngIf="paymentForm.get('cardNumber')?.touched && paymentForm.get('cardNumber')?.invalid" class="text-danger small mt-1">
-          Card number is required.
+          <span *ngIf="paymentForm.get('cardNumber')?.errors?.['required']">Card number is required.</span>
+          <span *ngIf="paymentForm.get('cardNumber')?.errors?.['digitsOnly']">Use digits only.</span>
+          <span *ngIf="paymentForm.get('cardNumber')?.errors?.['cardNumber']">Enter a valid card number (13-16 digits).</span>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label">Expiry <span class="required-indicator">*</span></label>
-          <input class="form-control" formControlName="expiry" />
+            <input class="form-control" formControlName="expiry" maxlength="5" (input)="onExpiryInput($event)" inputmode="numeric" [attr.aria-invalid]="paymentForm.get('expiry')?.invalid && paymentForm.get('expiry')?.touched" />
           <div *ngIf="paymentForm.get('expiry')?.touched && paymentForm.get('expiry')?.invalid" class="text-danger small mt-1">
-            Expiry is required.
+            <span *ngIf="paymentForm.get('expiry')?.errors?.['required']">Expiry is required.</span>
+            <span *ngIf="paymentForm.get('expiry')?.errors?.['expiryFormat']">Format must be YY/MM.</span>
+            <span *ngIf="paymentForm.get('expiry')?.errors?.['expiryMonth']">Month must be 01–12.</span>
           </div>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">CVV <span class="required-indicator">*</span></label>
-          <input class="form-control" formControlName="cvv" />
+            <input class="form-control" formControlName="cvv" maxlength="5" inputmode="numeric" [attr.aria-invalid]="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched" />
           <div *ngIf="paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid" class="text-danger small mt-1">
-            CVV is required.
+            <span *ngIf="paymentForm.get('cvv')?.errors?.['required']">CVV is required.</span>
+            <span *ngIf="paymentForm.get('cvv')?.errors?.['digitsOnly']">Use digits only.</span>
           </div>
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Name on card <span class="required-indicator">*</span></label>
-        <input class="form-control" formControlName="nameOnCard" />
+    <input class="form-control" formControlName="nameOnCard" maxlength="50" [attr.aria-invalid]="paymentForm.get('nameOnCard')?.invalid && paymentForm.get('nameOnCard')?.touched" />
         <div *ngIf="paymentForm.get('nameOnCard')?.touched && paymentForm.get('nameOnCard')?.invalid" class="text-danger small mt-1">
-          Name on card is required.
+          <span *ngIf="paymentForm.get('nameOnCard')?.errors?.['required']">Name on card is required.</span>
+          <span *ngIf="paymentForm.get('nameOnCard')?.errors?.['lettersOnly']">Use letters and spaces only.</span>
+          <span *ngIf="paymentForm.get('nameOnCard')?.errors?.['maxlength']">Max length is 50.</span>
         </div>
       </div>
     </form>

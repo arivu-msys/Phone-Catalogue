@@ -70,8 +70,54 @@
 
   .remove-btn {
     font-size: 18px;
-    color: #dc3545;
+    color: #6b7280; /* grey instead of red */
   }
 
   .qty-pill { gap: 8px }
+}
+
+/* Responsive behaviour: stack columns on narrow screens and move quantity under price */
+@media (max-width: 991px) {
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .cart-item > .d-flex[style] { /* product column wrapper originally had flex:1 inline style */
+    /* keep product row horizontal */
+    display: flex;
+    align-items: center;
+  }
+
+  /* Price, qty, total become full-width rows in mobile */
+  .price-col, .qty-col, .total-col {
+    width: 100% !important;
+    text-align: left !important;
+    margin-top: 8px;
+  }
+
+  /* Move qty below price visually by ordering elements in column flow */
+  .price-col { order: 1; }
+  .qty-col { order: 2; }
+  .total-col { order: 3; }
+
+  /* Make qty-pill spaced and full width on mobile */
+  .qty-pill { display:flex; justify-content:flex-start; gap:12px; }
+  .qty-value { min-width: 30px }
+}
+
+@media (min-width: 992px) {
+  /* desktop keep original row layout */
+  .cart-item { flex-direction: row; }
+}
+
+/* Additional mobile-specific rule: right-align price and qty for small phones (<768px) */
+@media (max-width: 767px) {
+  .price-col, .qty-col, .total-col {
+    text-align: right !important;
+  }
+
+  .qty-pill { justify-content: flex-end; }
 }

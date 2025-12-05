@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { digitsOnly } from '../validators';
 import { FormsModule } from '@angular/forms';
 import { CheckoutValidationService } from '../services/checkout-validation.service';
 
@@ -31,7 +32,7 @@ export class ShippingAddressComponent {
       apartment: [''],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      zipCode: ['', [Validators.required]],
+  zipCode: ['', [Validators.required, digitsOnly(6)]],
       country: ['', [Validators.required]],
       saveForFuture: [false],
       billingSameAsShipping: [true],
